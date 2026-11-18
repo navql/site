@@ -800,7 +800,7 @@
           if (!rel || !rel.assets) return;
           var pick = {
             '.platform[data-os="mac"]': /\.dmg$/,
-            '.platform[data-os="win"]': /\.exe$/,
+            '.platform[data-os="win"]': /^NavQL-Setup-[\d.]+\.[a-z]+$/,
             '.platform-link[data-pkg="appimage"]': /\.AppImage$/,
             '.platform-link[data-pkg="deb"]': /\.deb$/
           };
