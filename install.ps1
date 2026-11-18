@@ -13,7 +13,7 @@
 param([switch]$Uninstall)
 
 $ErrorActionPreference = 'Stop'
-$ProgressPreference = 'SilentlyContinue' # Invoke-WebRequest is much faster without the progress bar
+$ProgressPreference = 'SilentlyContinue'
 [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
 
 function Get-NavQLInstall {
@@ -48,7 +48,17 @@ $version = $release.tag_name -replace '^v', ''
 
 $installer = Join-Path ([IO.Path]::GetTempPath()) $asset.name
 Write-Host "Downloading NavQL $version..."
-Invoke-WebRequest -Uri $asset.browser_download_url -OutFile $installer -UseBasicParsing -Headers @{ 'User-Agent' = 'navql-install' }
+# curl.exe ships with Windows 10 (1803) and 11 and is far faster than Invoke-WebRequest in
+# Windows PowerShell 5.1; WebClient is the fallback.
+$curl = Get-Command curl.exe -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
+if ($curl) {
+  & $curl.Source -fsSL -o $installer $asset.browser_download_url
+  if ($LASTEXITCODE -ne 0) { throw "The download failed (curl exit code $LASTEXITCODE)." }
+} else {
+  $client = New-Object Net.WebClient
+  $client.Headers['User-Agent'] = 'navql-install'
+  $client.DownloadFile($asset.browser_download_url, $installer)
+}
 
 Write-Host 'Installing...'
 try {
