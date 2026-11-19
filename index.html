@@ -28,9 +28,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="color-scheme" content="dark">
 <style>
+  /* Brand tokens (NavQL brand manual v1.0) */
   :root {
-    /* Brand tokens (navql-brand/tokens) */
     --onix: #0A0A0B;
     --grafite: #18181B;
     --papel: #FAFAFA;
@@ -42,352 +43,347 @@
     --sans: Geist, system-ui, -apple-system, sans-serif;
     --mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
-    --line: rgba(255,255,255,.08);
-    --line-strong: rgba(255,255,255,.14);
+    /* Always dark: Ônix is the preferred background in the manual */
+    --bg: var(--onix);
+    --surface: var(--grafite);
+    --fg: var(--papel);
     --muted: #A1A1AA;
-    --dim: #71717A;
-    --max: 1180px;
+    --line: rgba(255,255,255,.09);
+    --line-strong: rgba(255,255,255,.18);
+    --signal: var(--ciano);        /* "QL" highlight, labels */
+    --link: var(--azul);           /* links on dark */
+    --btn-bg: var(--azul);
+    --btn-fg: var(--onix);
+    --focus: var(--ciano);
+    --max: 1240px;
+    color-scheme: dark;
   }
+  /* Blocks that stay dark in both themes: the product tour and the demo */
+  .on-dark {
+    --bg: var(--onix);
+    --surface: var(--grafite);
+    --fg: var(--papel);
+    --muted: #A1A1AA;
+    --line: rgba(255,255,255,.09);
+    --line-strong: rgba(255,255,255,.18);
+    --signal: var(--ciano);
+    --link: var(--ciano);
+    --btn-bg: var(--azul);
+    --btn-fg: var(--onix);
+    --focus: var(--ciano);
+    color-scheme: dark;
+    color: var(--fg);
+  }
+
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    margin: 0;
-    background: var(--onix);
-    color: var(--papel);
-    font: 400 16px/1.625 var(--sans);
-    -webkit-font-smoothing: antialiased;
-  }
-  img { max-width: 100%; height: auto; display: block; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 400 16px/1.625 var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  img, video { display: block; max-width: 100%; height: auto; }
   a { color: inherit; text-decoration: none; }
-  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
-  .mono { font-family: var(--mono); }
-  .eyebrow { font: 400 13px/1 var(--mono); color: var(--ciano); letter-spacing: .02em; }
-  .ql { color: var(--ciano); }
+  h1, h2, h3 { text-wrap: balance; }
+  p { margin: 0; }
+  code, .mono { font-family: var(--mono); }
+  [hidden] { display: none !important; }
+  main [id] { scroll-margin-top: 84px; }
+  :focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: 4px; }
 
-  /* Nav */
-  header.nav {
-    position: sticky; top: 0; z-index: 50;
-    background: rgba(10,10,11,.72);
-    backdrop-filter: saturate(160%) blur(14px);
-    -webkit-backdrop-filter: saturate(160%) blur(14px);
-    border-bottom: 1px solid var(--line);
-  }
-  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
-  .nav .logo img { height: 28px; width: auto; } /* above the 24 px minimum */
-  .nav nav { display: flex; gap: 28px; align-items: center; font-size: 14px; color: var(--muted); }
-  .nav nav a:hover { color: var(--papel); }
-  .btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    height: 40px; padding: 0 18px; border-radius: 10px;
-    font: 500 14px/1 var(--sans); white-space: nowrap;
-    transition: background .15s, border-color .15s, transform .15s;
-  }
-  .btn-primary { background: var(--azul); color: #fff; }
-  .btn-primary:hover { background: #3f6cf5; }
-  .btn-ghost { border: 1px solid var(--line-strong); color: var(--papel); }
-  .btn-ghost:hover { border-color: rgba(255,255,255,.3); }
-  .btn-lg { height: 48px; padding: 0 22px; font-size: 15px; border-radius: 12px; }
-  .nav .btn { height: 36px; color: #fff; }
-
-  /* Hero */
-  .hero { position: relative; overflow: hidden; padding: 96px 0 0; }
-  .hero-discs {
-    position: absolute; right: -180px; top: -10px; width: 620px; opacity: .9;
-    pointer-events: none; overflow: visible;
-    transform: translate3d(var(--px, 0px), var(--py, 0px), 0);
-    transition: transform .6s cubic-bezier(.2,.7,.2,1);
-  }
-  /* The discs drop in one by one, in icon order (violet at the bottom, cyan on top),
-     then float with a slight lag between layers. */
-  .disc { transform-box: view-box; }
-  .disc .glow { filter: blur(14px); opacity: 0; }
-  .d3 { animation: drop .9s cubic-bezier(.2,.9,.25,1.15) .15s both, float3 7s ease-in-out 1.6s infinite; }
-  .d2 { animation: drop .9s cubic-bezier(.2,.9,.25,1.15) .35s both, float2 7s ease-in-out 1.8s infinite; }
-  .d1 { animation: drop .9s cubic-bezier(.2,.9,.25,1.15) .55s both, float1 7s ease-in-out 2s infinite; }
-  .d1 .glow { animation: glow 7s ease-in-out 2s infinite; }
-  @keyframes drop {
-    from { transform: translateY(-70px); opacity: 0; }
-    60% { opacity: 1; }
-    to { transform: translateY(0); opacity: 1; }
-  }
-  @keyframes float1 { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
-  @keyframes float2 { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-  @keyframes float3 { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
-  @keyframes glow { 0%,100% { opacity: 0; } 50% { opacity: .55; } }
-
-  /* Download icon: the discs spread apart on hover */
-  .download .icon-wrap { width: 112px; margin: 0 auto 32px; }
-  .download .icon-wrap svg { display: block; width: 112px; height: 112px; border-radius: 26px; box-shadow: 0 30px 80px -20px rgba(34,211,238,.35); }
-  .download .icon-wrap ellipse { transform-box: view-box; transition: transform .5s cubic-bezier(.2,.9,.25,1.3); }
-  .download .icon-wrap:hover .i1 { transform: translateY(-7px); }
-  .download .icon-wrap:hover .i3 { transform: translateY(5px); }
-  /* On entering the viewport, the discs "breathe" once */
-  .download.in-view .i1 { animation: breathe1 1.2s cubic-bezier(.3,.8,.3,1) .2s; }
-  .download.in-view .i3 { animation: breathe3 1.2s cubic-bezier(.3,.8,.3,1) .2s; }
-  @keyframes breathe1 { 40% { transform: translateY(-8px); } }
-  @keyframes breathe3 { 40% { transform: translateY(6px); } }
-
-  @media (prefers-reduced-motion: reduce) {
-    .disc, .disc .glow, .download .i1, .download .i3 { animation: none !important; }
-    .hero-discs { transform: none !important; }
-  }
-  .hero-copy { position: relative; max-width: 720px; }
-  .hero h1 {
-    font: 700 clamp(44px, 7vw, 84px)/1.02 var(--sans);
-    letter-spacing: -.035em; margin: 20px 0 24px;
-  }
-  .hero p.lead { font-size: 19px; line-height: 1.6; color: var(--muted); max-width: 560px; margin: 0 0 36px; }
-  .hero .ctas { display: flex; gap: 12px; flex-wrap: wrap; }
-  .hero .meta { margin-top: 18px; font: 400 13px/1.4 var(--mono); color: var(--dim); }
-  .hero-shot { position: relative; margin-top: 72px; }
-
-  /* App window */
-  /* The screenshots are real macOS windows: their own title bar, rounded corners with transparency. */
-  .window img, .code-band img.shot {
-    filter: drop-shadow(0 0 1px rgba(255,255,255,.28)) drop-shadow(0 36px 60px rgba(79,124,255,.22));
-  }
-  /* The demo video: a recording of the app, framed like the window screenshots. */
-  .window video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; border-radius: 12px; background: #1c1c1f;
-    box-shadow: 0 0 0 1px rgba(255,255,255,.16), 0 36px 60px rgba(79,124,255,.22); }
-  .hero-shot::after {
-    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 14%; pointer-events: none;
-    background: linear-gradient(to bottom, rgba(10,10,11,0), var(--onix));
-  }
-
-  /* Supported databases */
-  .dbs { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-  .dbs .wrap { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-top: 28px; padding-bottom: 28px; flex-wrap: wrap; }
-  .dbs p { margin: 0; font: 400 13px/1 var(--mono); color: var(--dim); }
-  .dbs ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 36px; flex-wrap: wrap; }
-  .dbs li { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 17px; }
-  .dbs .compat { flex-basis: 100%; font: 400 14px/1.5 var(--sans); color: var(--muted); }
-  .dbs li i { width: 10px; height: 10px; border-radius: 50%; }
-
-  /* Sections */
-  section { padding: 120px 0; }
-  .section-head { max-width: 640px; margin-bottom: 56px; }
-  h2 { font: 700 clamp(32px, 4.4vw, 48px)/1.08 var(--sans); letter-spacing: -.03em; margin: 16px 0 16px; }
-  .section-head p { color: var(--muted); font-size: 17px; margin: 0; }
-
-  /* Pillars */
-  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .pillar { background: var(--grafite); border: 1px solid var(--line); border-radius: 16px; padding: 28px; }
-  .pillar .bar { width: 32px; height: 8px; border-radius: 4px; margin-bottom: 20px; }
-  .pillar h3 { font: 600 22px/1.3 var(--sans); margin: 0 0 8px; letter-spacing: -.01em; }
-  .pillar p { margin: 0; color: var(--muted); font-size: 15px; }
-
-  /* Gallery */
-  .tour { background: linear-gradient(to bottom, var(--onix), #0e0e11 40%, var(--onix)); }
-  .tabs { display: flex; gap: 6px; padding: 5px; background: var(--grafite); border: 1px solid var(--line); border-radius: 12px; width: fit-content; margin-bottom: 28px; flex-wrap: wrap; }
-  .tabs button {
-    appearance: none; border: 0; background: transparent; color: var(--muted);
-    font: 500 14px/1 var(--sans); height: 36px; padding: 0 16px; border-radius: 8px; cursor: pointer;
-    display: inline-flex; align-items: center; gap: 8px;
-  }
-  .tabs button i { width: 8px; height: 8px; border-radius: 50%; opacity: .5; }
-  .tabs button[aria-selected="true"] { background: #26262b; color: var(--papel); }
-  .tabs button[aria-selected="true"] i { opacity: 1; }
-  .tabs button:focus-visible { outline: 2px solid var(--azul); outline-offset: 2px; }
-  .tour-grid { display: grid; grid-template-columns: 1fr 300px; gap: 40px; align-items: start; }
-  .tour-copy h3 { font: 600 24px/1.25 var(--sans); margin: 0 0 12px; letter-spacing: -.015em; }
-  .tour-copy p { color: var(--muted); margin: 0 0 20px; font-size: 15px; }
-  .tour-copy ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; font-size: 14px; color: #d4d4d8; }
-  .tour-copy li { display: flex; gap: 10px; }
-  .tour-copy li::before { content: ""; flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--ciano); margin-top: 9px; }
-  .panel[hidden] { display: none; }
-
-  /* Features */
-  .features { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
-  .feature { padding: 32px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-  .feature:nth-child(3n) { border-right: 0; }
-  .feature:nth-last-child(-n+3) { border-bottom: 0; }
-  .feature .ico { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; background: var(--grafite); border: 1px solid var(--line); margin-bottom: 20px; }
-  .feature .ico svg { width: 20px; height: 20px; }
-  .feature h3 { font: 600 17px/1.3 var(--sans); margin: 0 0 8px; }
-  .feature p { margin: 0; color: var(--muted); font-size: 15px; }
-
-  /* FAQ */
-  .faq { max-width: 820px; border-top: 1px solid var(--line); }
-  .faq details { border-bottom: 1px solid var(--line); }
-  .faq summary { list-style: none; cursor: pointer; padding: 20px 36px 20px 0; position: relative; font: 600 17px/1.4 var(--sans); }
-  .faq summary::-webkit-details-marker { display: none; }
-  .faq summary::after { content: "+"; position: absolute; right: 4px; top: 16px; font: 400 22px/1.4 var(--mono); color: var(--ciano); }
-  .faq details[open] summary::after { content: "−"; }
-  .faq summary:focus-visible { outline: 2px solid var(--azul); outline-offset: 3px; border-radius: 6px; }
-  .faq p code { font: 400 13px/1.5 var(--mono); color: var(--papel); overflow-wrap: anywhere; }
-  .faq p { margin: 0 0 22px; color: var(--muted); font-size: 15px; max-width: 700px; }
-
-  /* Code */
-  .code-band { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
-  .code {
-    background: var(--grafite); border: 1px solid var(--line); border-radius: 16px; padding: 28px;
-    font: 400 15px/1.75 var(--mono); color: #e4e4e7; overflow-x: auto; white-space: pre;
-  }
-  .code .k { color: #a1a1aa; }
-  .code .t { color: var(--ciano); }
-  .code .n { color: var(--violeta); }
-  .code .s { color: var(--azul); }
-
-  /* Download */
-  .download { text-align: center; position: relative; overflow: hidden; }
-  .download .icon { width: 112px; margin: 0 auto 32px; border-radius: 26px; box-shadow: 0 30px 80px -20px rgba(34,211,238,.35); }
-  .download h2 { margin: 0 0 16px; }
-  .download > .wrap > p { color: var(--muted); font-size: 17px; margin: 0 auto 40px; max-width: 520px; }
-  .platforms { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 840px; margin: 0 auto; text-align: left; }
-  .platform { background: var(--grafite); border: 1px solid var(--line); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 4px; transition: border-color .15s, transform .15s; }
-  .platform:hover { border-color: rgba(79,124,255,.6); transform: translateY(-2px); }
-  .platform strong { font-size: 17px; font-weight: 600; }
-  .platform span { color: var(--dim); font: 400 13px/1.5 var(--mono); }
-  .platform.soon { opacity: .6; }
-  .platform.soon:hover { border-color: var(--line); transform: none; }
-  .platform.soon em { color: var(--dim); }
-  .download > .wrap > p.dl-note { color: var(--dim); font-size: 13px; margin: 28px auto 0; max-width: 560px; }
-  .dl-note a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
-  .platform { position: relative; }
-  .platform.recommended { border-color: rgba(79,124,255,.7); box-shadow: 0 20px 60px -30px rgba(79,124,255,.8); }
-  .platform .badge { position: absolute; top: 14px; right: 14px; font: 500 11px/1 var(--mono); color: var(--ciano); border: 1px solid rgba(34,211,238,.35); border-radius: 999px; padding: 5px 8px; }
-  .platform em { margin-top: 14px; font-style: normal; color: var(--azul); font-size: 14px; font-weight: 500; }
-  /* Linux: one card, two packages */
-  .platform .dl-links { margin-top: 14px; display: flex; gap: 18px; font: 500 14px/1.4 var(--sans); }
-  .platform-link { color: var(--azul); }
-  .platform-link:hover { color: #7c9dff; }
-  .dl-note code { font: 400 12px/1 var(--mono); color: var(--muted); }
-
-  /* Install from the terminal */
-  .cli { max-width: 840px; margin: 40px auto 0; text-align: left; }
-  .cli h3 { font: 600 15px/1.4 var(--sans); margin: 0 0 4px; text-align: center; }
-  .cli > p { color: var(--dim); font-size: 13px; margin: 0 0 16px; text-align: center; }
-  .cli-row { display: grid; grid-template-columns: 150px 1fr auto; align-items: center; gap: 12px; background: var(--grafite); border: 1px solid var(--line); border-radius: 12px; padding: 10px 10px 10px 18px; margin-bottom: 8px; }
-  .cli-row.recommended { border-color: rgba(79,124,255,.7); }
-  .cli-os { font-size: 14px; font-weight: 600; }
-  .cli-os small { display: block; color: var(--dim); font: 400 12px/1.4 var(--mono); }
-  .cli-row code { font: 400 13px/1.5 var(--mono); color: #e4e4e7; overflow-x: auto; white-space: nowrap; scrollbar-width: thin; }
-  .cli-row code .p { color: var(--dim); user-select: none; }
-  .copy { font: 500 12px/1 var(--sans); color: var(--muted); background: transparent; border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; cursor: pointer; transition: color .15s, border-color .15s; }
-  .copy:hover { color: var(--papel); border-color: rgba(79,124,255,.6); }
-  .copy:focus-visible { outline: 2px solid var(--azul); outline-offset: 2px; }
-  .copy.done { color: var(--ciano); border-color: rgba(34,211,238,.45); }
-  .cli.locked .cli-row { opacity: .45; }
-  .cli details { margin-top: 12px; color: var(--dim); font-size: 13px; }
-  .cli summary { cursor: pointer; text-align: center; color: var(--muted); }
-  .cli summary:focus-visible { outline: 2px solid var(--azul); outline-offset: 3px; border-radius: 6px; }
-  .cli details ul { list-style: none; padding: 0; margin: 12px 0 0; }
-  .cli details li { margin: 6px 0; }
-  .cli details code { font: 400 12px/1.5 var(--mono); color: var(--muted); overflow-wrap: anywhere; }
-  @media (max-width: 720px) {
-    .cli-row { grid-template-columns: 1fr auto; padding: 12px 10px 12px 14px; }
-    .cli-row code { grid-column: 1 / -1; grid-row: 2; }
-  }
-
-  /* Agreement before download: the cards stay dimmed until the box is checked */
-  .agree { display: flex; align-items: flex-start; justify-content: center; gap: 10px; max-width: 560px; margin: 0 auto 24px; text-align: left; color: var(--muted); font-size: 14px; line-height: 1.5; cursor: pointer; }
-  .agree input { flex: none; width: 18px; height: 18px; margin: 1px 0 0; accent-color: var(--azul); cursor: pointer; }
-  .agree a { color: var(--papel); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(255,255,255,.35); }
-  .agree.nudge { animation: nudge .45s; color: var(--papel); }
-  @keyframes nudge { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
-  .platforms.locked .platform:not(.soon) { opacity: .45; }
-  .platforms.locked .platform:not(.soon):hover { border-color: var(--line); transform: none; }
-
-  footer { border-top: 1px solid var(--line); padding: 40px 0; }
-  footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
-  footer img { height: 24px; width: auto; }
-  footer p { margin: 0; color: var(--dim); font-size: 13px; }
-
-  footer nav { display: flex; gap: 20px; font-size: 13px; color: var(--muted); }
-  footer nav a:hover { color: var(--papel); }
-
-  /* Keyboard focus and skip link */
-  a:focus-visible, .btn:focus-visible { outline: 2px solid var(--azul); outline-offset: 3px; border-radius: 6px; }
-  .skip { position: absolute; left: 16px; top: -60px; z-index: 100; background: var(--azul); color: #fff; padding: 10px 14px; border-radius: 8px; font-size: 14px; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 32px; }
+  .label { font: 500 13px/1.4 var(--mono); color: var(--signal); letter-spacing: .01em; }
+  .skip { position: absolute; left: 16px; top: -60px; z-index: 100; background: var(--btn-bg); color: var(--btn-fg); padding: 10px 14px; border-radius: 8px; font-size: 14px; }
   .skip:focus { top: 12px; }
 
-  /* Sections fade up as they scroll into view (class added by script) */
-  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
-  .reveal.shown { opacity: 1; transform: none; }
+  /* Buttons */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 22px; border-radius: 10px; border: 1px solid transparent; font: 600 15px/1 var(--sans); white-space: nowrap; cursor: pointer; transition: background-color .15s, border-color .15s; }
+  .btn-primary { background: var(--btn-bg); color: var(--btn-fg); }
+  .btn-primary:hover { background: color-mix(in srgb, var(--btn-bg) 86%, var(--fg)); }
+  .btn-secondary { border-color: var(--line-strong); color: var(--fg); background: transparent; }
+  .btn-secondary:hover { border-color: var(--signal); }
+  .btn-secondary svg { width: 14px; height: 14px; fill: currentColor; }
+  .btn-sm { min-height: 38px; padding: 0 16px; font-size: 14px; border-radius: 9px; }
+
+  /* Header */
+  .site-header { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--bg) 84%, transparent); backdrop-filter: saturate(160%) blur(14px); -webkit-backdrop-filter: saturate(160%) blur(14px); border-bottom: 1px solid var(--line); }
+  .site-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 68px; }
+  .brand { display: inline-flex; padding: 7px 0; }  /* clear space around the logo */
+  .brand img { height: 28px; width: auto; }       /* above the 24 px minimum */
+  .site-header nav { display: flex; align-items: center; gap: 28px; font-size: 14px; color: var(--muted); }
+  .site-header nav a:not(.btn):hover { color: var(--fg); }
+
+  /* Hero: 40% message, 60% product tour */
+  .hero { padding: 64px 0 80px; }
+  .hero .wrap { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 6fr); gap: 56px; align-items: center; }
+  .hero h1 { margin: 18px 0 22px; font: 700 clamp(48px, 6.4vw, 88px)/.96 var(--sans); letter-spacing: -.045em; }
+  .hero h1 span { display: block; }
+  .hero h1 .hl { color: var(--signal); }
+  .hero .lead { color: var(--muted); font-size: 18px; line-height: 1.6; max-width: 34ch; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+  .platform-line { margin-top: 20px; font: 400 13px/1.5 var(--mono); color: var(--muted); }
+
+  /* Product tour */
+  .tour { container-type: inline-size; min-width: 0; background: var(--grafite); border: 1px solid rgba(255,255,255,.1); border-radius: 18px; overflow: hidden; box-shadow: 0 40px 100px -50px rgba(79,124,255,.45); }
+  .tour-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--line); }
+  .tour-bar h2 { margin: 0; font: 500 13px/1.4 var(--mono); color: var(--fg); letter-spacing: .01em; }
+  .tour-bar .dots { display: flex; gap: 6px; }
+  .tour-bar .dots i { width: 8px; height: 8px; border-radius: 50%; }
+  .tabs { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; padding: 8px; border-bottom: 1px solid var(--line); }
+  .tabs button { min-width: 0; min-height: 40px; padding: 0 6px; border: 1px solid transparent; border-radius: 8px; background: transparent; color: var(--muted); font: 500 14px/1.2 var(--sans); cursor: pointer; transition: background-color .15s, color .15s; }
+  .tabs button:hover { color: var(--fg); background: rgba(255,255,255,.04); }
+  .tabs button[aria-selected="true"] { color: var(--fg); background: var(--onix); border-color: var(--line-strong); box-shadow: inset 0 -2px 0 var(--ciano); }
+  .tabs button:focus-visible { outline: 2px solid var(--ciano); outline-offset: 1px; }
+  @container (max-width: 560px) {
+    .tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  .panel { margin: 0; padding: 14px 14px 18px; }
+  .panel:focus-visible { outline-offset: -4px; }
+  .panel .shot { display: block; aspect-ratio: 16 / 10; border-radius: 10px; overflow: hidden; background: var(--onix); border: 1px solid var(--line); }
+  .panel .shot img { width: 100%; height: 100%; object-fit: cover; }
+  .panel figcaption { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 20px; padding: 14px 4px 0; min-height: 64px; }
+  .panel figcaption p { color: var(--muted); font-size: 15px; line-height: 1.5; flex: 1 1 280px; }
+  .panel figcaption strong { color: var(--fg); font-weight: 600; }
+  .panel figcaption a { font: 500 13px/1.4 var(--mono); color: var(--ciano); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(34,211,238,.4); white-space: nowrap; }
+  .panel figcaption a:hover { text-decoration-color: currentColor; }
+
+  /* Databases strip */
+  .dbs { border-block: 1px solid var(--line); background: var(--surface); padding: 22px 0; }
+  .dbs .wrap { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px 32px; align-items: center; }
+  .dbs h2 { margin: 0; font: 500 13px/1.4 var(--mono); color: var(--muted); }
+  .dbs ul { display: flex; flex-wrap: wrap; gap: 8px 26px; margin: 0; padding: 0; list-style: none; font-weight: 600; font-size: 16px; }
+  .dbs li { display: inline-flex; align-items: center; gap: 8px; }
+  .dbs li i { width: 8px; height: 8px; border-radius: 50%; }
+  .dbs .compat { grid-column: 2; color: var(--muted); font-size: 14px; }
+
+  /* Sections */
+  section.block { padding: 112px 0; }
+  .section-head { max-width: 640px; margin-bottom: 48px; }
+  .section-head h2, .block h2 { margin: 14px 0 16px; font: 700 clamp(34px, 4.4vw, 52px)/1.06 var(--sans); letter-spacing: -.035em; }
+  .section-head p { color: var(--muted); font-size: 18px; }
+
+  /* Demo */
+  .demo { background: var(--grafite); }
+  .demo .wrap { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 56px; align-items: center; }
+  .demo p.intro { color: var(--muted); font-size: 17px; }
+  .steps { list-style: none; margin: 28px 0 0; padding: 0; border-top: 1px solid var(--line); }
+  .steps li { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 8px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 15px; color: var(--fg); }
+  .steps li span { font: 500 13px/1.7 var(--mono); color: var(--ciano); }
+  .video { scroll-margin-top: 96px; border-radius: 14px; overflow: hidden; border: 1px solid var(--line-strong); background: var(--onix); }
+  .video video { width: 100%; aspect-ratio: 16 / 10; }
+  .demo .meta { margin-top: 12px; font: 400 13px/1.5 var(--mono); color: var(--muted); }
+
+  /* Benefits */
+  .benefits { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .benefit { padding: 28px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
+  .benefit .bar { width: 32px; height: 6px; border-radius: 3px; margin-bottom: 22px; }
+  .benefit h3 { margin: 0 0 10px; font: 600 20px/1.3 var(--sans); letter-spacing: -.015em; }
+  .benefit p { color: var(--muted); font-size: 15px; }
+  .schema { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 56px; align-items: center; margin-top: 96px; }
+  .schema .shot { border-radius: 14px; overflow: hidden; border: 1px solid var(--line-strong); background: var(--onix); }
+  .schema h2 { margin-top: 14px; }
+  .schema p { color: var(--muted); font-size: 17px; }
+  .checks { list-style: none; padding: 0; margin: 24px 0 0; }
+  .checks li { position: relative; padding: 7px 0 7px 22px; color: var(--muted); font-size: 15px; }
+  .checks li::before { content: ""; position: absolute; left: 0; top: 16px; width: 8px; height: 8px; border-radius: 50%; background: var(--signal); }
+
+  /* FAQ */
+  .faq-section { border-top: 1px solid var(--line); }
+  .faq-section .wrap { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 56px; }
+  .faq-section .section-head { margin: 0; }
+  .faq { border-top: 1px solid var(--line); }
+  .faq details { border-bottom: 1px solid var(--line); }
+  .faq summary { list-style: none; cursor: pointer; padding: 20px 40px 20px 0; position: relative; font: 600 17px/1.4 var(--sans); }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; position: absolute; right: 6px; top: 17px; font: 400 22px/1.4 var(--mono); color: var(--signal); }
+  .faq details[open] summary::after { content: "−"; }
+  .faq p { margin: 0 0 22px; color: var(--muted); font-size: 15px; max-width: 680px; }
+  .faq p code { font-size: 13px; color: var(--fg); overflow-wrap: anywhere; }
+
+  /* Download */
+  .download { background: var(--surface); border-top: 1px solid var(--line); text-align: center; }
+  .download .icon { width: 72px; height: 72px; margin: 0 auto 24px; }
+  .download h2 { margin: 0 0 14px; }
+  .download h2 .ql { color: var(--signal); }
+  .download .sub { color: var(--muted); font-size: 17px; max-width: 520px; margin: 0 auto 32px; }
+  .agree { display: flex; align-items: flex-start; gap: 12px; max-width: 620px; margin: 0 auto 20px; padding: 16px 18px; text-align: left; color: var(--fg); font-size: 14px; line-height: 1.55; background: var(--bg); border: 1px solid var(--line-strong); border-radius: 12px; cursor: pointer; }
+  .agree:focus-within { border-color: var(--signal); }
+  .agree input { flex: none; width: 20px; height: 20px; margin: 0; accent-color: var(--btn-bg); cursor: pointer; }
+  .agree a { color: var(--link); text-decoration: underline; text-underline-offset: 3px; }
+  .agree.nudge { animation: nudge .45s; border-color: var(--signal); }
+  @keyframes nudge { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+  .platforms { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; max-width: 860px; margin: 0 auto; text-align: left; }
+  .platform { position: relative; display: flex; flex-direction: column; gap: 4px; padding: 24px; background: var(--bg); border: 1px solid var(--line); border-radius: 16px; transition: border-color .15s, opacity .15s; }
+  a.platform:hover { border-color: var(--link); }
+  .platform strong { font-size: 17px; font-weight: 600; }
+  .platform span { color: var(--muted); font: 400 13px/1.5 var(--mono); }
+  .platform em { margin-top: 14px; font-style: normal; color: var(--link); font-size: 14px; font-weight: 600; }
+  .platform .dl-links { margin-top: 14px; display: flex; gap: 18px; font: 600 14px/1.4 var(--sans); }
+  .platform-link { color: var(--link); }
+  .platform.recommended { border-color: var(--link); }
+  .platform .badge { position: absolute; top: 14px; right: 14px; font: 500 11px/1 var(--mono); color: var(--signal); border: 1px solid var(--line-strong); border-radius: 999px; padding: 5px 8px; }
+  .platforms.locked .platform { opacity: .45; }
+  .platforms.locked a.platform:hover { border-color: var(--line); }
+  .dl-note { color: var(--muted); font-size: 13px; margin: 28px auto 0; max-width: 600px; }
+  .dl-note a { text-decoration: underline; text-underline-offset: 3px; }
+  .dl-note code { font-size: 12px; }
+
+  .cli { max-width: 860px; margin: 44px auto 0; text-align: left; }
+  .cli h3 { font: 600 15px/1.4 var(--sans); margin: 0 0 4px; text-align: center; }
+  .cli > p { color: var(--muted); font-size: 13px; margin: 0 0 16px; text-align: center; }
+  .cli-row { display: grid; grid-template-columns: 150px minmax(0, 1fr) auto; align-items: center; gap: 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 10px 10px 10px 18px; margin-bottom: 8px; }
+  .cli-row.recommended { border-color: var(--link); }
+  .cli-os { font-size: 14px; font-weight: 600; }
+  .cli-os small { display: block; color: var(--muted); font: 400 12px/1.4 var(--mono); }
+  .cli-row code { font-size: 13px; line-height: 1.5; overflow-x: auto; white-space: nowrap; scrollbar-width: thin; }
+  .cli-row code .p { color: var(--muted); user-select: none; }
+  .copy { font: 500 12px/1 var(--sans); color: var(--muted); background: transparent; border: 1px solid var(--line-strong); border-radius: 8px; padding: 9px 12px; cursor: pointer; }
+  .copy:hover { color: var(--fg); border-color: var(--link); }
+  .copy.done { color: var(--signal); border-color: var(--signal); }
+  .cli.locked .cli-row { opacity: .45; }
+  .cli details { margin-top: 12px; color: var(--muted); font-size: 13px; }
+  .cli summary { cursor: pointer; text-align: center; }
+  .cli details ul { list-style: none; padding: 0; margin: 12px 0 0; }
+  .cli details li { margin: 6px 0; }
+  .cli details code { font-size: 12px; overflow-wrap: anywhere; }
+  .cli details a { text-decoration: underline; text-underline-offset: 3px; }
+
+  /* Footer */
+  footer { border-top: 1px solid var(--line); padding: 36px 0; }
+  footer .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; }
+  footer .brand img { height: 24px; }
+  footer p { color: var(--muted); font-size: 13px; }
+  footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 13px; color: var(--muted); }
+  footer nav a:hover { color: var(--fg); }
 
   /* Responsive */
+  @media (max-width: 1080px) {
+    .hero .wrap { gap: 40px; }
+    .demo .wrap, .faq-section .wrap { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+    .demo .wrap > div:first-child { max-width: 640px; }
+    .schema { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+    .schema .copy-col { order: -1; max-width: 640px; }
+  }
   @media (max-width: 960px) {
-    .tour-grid, .code-band { grid-template-columns: 1fr; }
-    .tour-copy { order: -1; }
-    .features { grid-template-columns: repeat(2, 1fr); }
-    .feature:nth-child(3n) { border-right: 1px solid var(--line); }
-    .feature:nth-child(2n) { border-right: 0; }
-    .feature:nth-last-child(-n+3) { border-bottom: 1px solid var(--line); }
-    .feature:last-child { border-bottom: 0; grid-column: span 2; }
+    .hero { padding: 48px 0 64px; }
+    .hero .wrap { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+    .hero .lead { max-width: 52ch; }
+    .benefits { grid-template-columns: minmax(0, 1fr); }
+    .dbs .wrap { grid-template-columns: minmax(0, 1fr); }
+    .dbs .compat { grid-column: auto; }
   }
   @media (max-width: 720px) {
     .wrap { padding: 0 16px; }
-    .nav nav a:not(.btn) { display: none; }
-    .hero { padding-top: 64px; }
-    .hero-discs { width: 300px; right: -150px; top: -120px; opacity: .35; }
-    .hero-shot { margin-top: 48px; }
-    section { padding: 80px 0; }
-    .pillars, .platforms, .features { grid-template-columns: 1fr; }
-    .feature, .feature:nth-child(n) { border-right: 0; border-bottom: 1px solid var(--line); }
-    .feature:last-child { border-bottom: 0; grid-column: auto; }
-    .dbs ul { gap: 20px; }
-    .tabs { width: 100%; flex-wrap: nowrap; gap: 2px; overflow-x: auto; scrollbar-width: none; }
-    .tabs::-webkit-scrollbar { display: none; }
-    .tabs button { flex: none; justify-content: center; padding: 0 12px; font-size: 13px; gap: 6px; }
-    .tabs button i { display: none; }
-    .code { font-size: 13px; padding: 20px; }
+    .site-header .wrap { height: 60px; }
+    .site-header nav a:not(.btn) { display: none; }
+    .brand img { height: 26px; }
+    .hero { padding: 36px 0 48px; }
+    .hero h1 { font-size: clamp(48px, 15vw, 64px); margin: 14px 0 18px; }
+    .hero .lead { font-size: 17px; }
+    .actions { margin-top: 24px; }
+    .actions .btn { flex: 1 1 160px; }
+    .tour { border-radius: 14px; }
+    .tour-bar { padding: 12px 14px; }
+    .tabs { padding: 6px; }
+    .tabs button { font-size: 13px; padding: 0 2px; }
+    .panel { padding: 10px 10px 14px; }
+    .panel figcaption { min-height: 108px; align-content: flex-start; } /* same height on every tab */
+    section.block { padding: 72px 0; }
+    .section-head { margin-bottom: 32px; }
+    .benefit { padding: 22px; }
+    .schema { margin-top: 64px; }
+    .platforms { grid-template-columns: minmax(0, 1fr); }
+    .cli-row { grid-template-columns: minmax(0, 1fr) auto; padding: 12px 10px 12px 14px; }
+    .cli-row code { grid-column: 1 / -1; grid-row: 2; }
+    footer .wrap { flex-direction: column; align-items: flex-start; }
   }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
 </style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
-<header class="nav">
+<header class="site-header">
   <div class="wrap">
-    <a class="logo" href="#" aria-label="NavQL — home"><img src="assets/navql-logo-fundo-escuro.svg" alt="NavQL" width="92" height="28"></a>
-    <nav>
-      <a href="#tour">Tour</a>
+    <a class="brand" href="#main" aria-label="NavQL, back to top">
+      <picture>
+        <img src="assets/navql-logo-fundo-escuro.svg" alt="NavQL" width="92" height="28">
+      </picture>
+    </a>
+    <nav aria-label="Main">
+      <a href="#tour">Explore</a>
+      <a href="#demo">Demo</a>
       <a href="#features">Features</a>
       <a href="#faq">FAQ</a>
-      <a href="#download" class="btn btn-primary">Download</a>
+      <a href="#download" class="btn btn-primary btn-sm">Download</a>
     </nav>
   </div>
 </header>
 
 <main id="main">
-  <section class="hero" style="padding-bottom:0">
-    <svg class="hero-discs" viewBox="10 10 100 100" aria-hidden="true" focusable="false">
-      <g class="disc d3"><ellipse class="glow" cx="60" cy="90" rx="50" ry="16" fill="#8B5CF6"/><ellipse cx="60" cy="90" rx="50" ry="16" fill="#8B5CF6"/></g>
-      <g class="disc d2"><ellipse class="glow" cx="60" cy="66" rx="50" ry="16" fill="#4F7CFF"/><ellipse cx="60" cy="66" rx="50" ry="16" fill="#4F7CFF"/></g>
-      <g class="disc d1"><ellipse class="glow" cx="60" cy="42" rx="50" ry="16" fill="#22D3EE"/><ellipse cx="60" cy="42" rx="50" ry="16" fill="#22D3EE"/></g>
-    </svg>
+  <section class="hero" aria-labelledby="hero-title">
     <div class="wrap">
       <div class="hero-copy">
-        <span class="eyebrow">Database client · macOS, Windows and Linux</span>
-        <h1>Navigate all your data.</h1>
-        <p class="lead">A free database client for MySQL, PostgreSQL, SQL Server, MongoDB, Redis and more, in one clean, focused place. Browse tables and collections, edit records and run queries, fast.</p>
-        <div class="ctas">
-          <a href="#download" class="btn btn-primary btn-lg">Download NavQL</a>
-          <a href="#tour" class="btn btn-ghost btn-lg">See the app</a>
+        <p class="label">Free desktop database client</p>
+        <h1 id="hero-title"><span>Follow</span> <span class="hl">the data.</span></h1>
+        <p class="lead">Browse records, follow relationships and write SQL. Work with PostgreSQL, MySQL, MongoDB, Redis and more in one desktop app.</p>
+        <div class="actions">
+          <a href="#download" class="btn btn-primary">Download NavQL</a>
+          <a href="#demo-video" class="btn btn-secondary" id="watch-demo"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>Watch the demo</a>
         </div>
-        <p class="meta">v<span data-version>0.4.13</span> · free · updates itself</p>
+        <p class="platform-line">macOS (Apple Silicon) · Windows · Linux</p>
       </div>
-      <div class="hero-shot">
-        <div class="window">
-          <video id="demo" muted loop playsinline preload="metadata" poster="assets/video/navql-demo-poster.webp" width="1920" height="1200" aria-label="NavQL demo: opening a PostgreSQL connection, filtering orders, following a foreign key to the customer, the rows related to that customer, a query with autocomplete and the database diagram">
-            <source src="assets/video/navql-demo.webm" type="video/webm">
-            <source src="assets/video/navql-demo.mp4" type="video/mp4">
-          </video>
+
+      <div class="tour on-dark" id="tour">
+        <div class="tour-bar">
+          <h2>Explore NavQL</h2>
+          <span class="dots" aria-hidden="true"><i style="background:var(--ciano)"></i><i style="background:var(--azul)"></i><i style="background:var(--violeta)"></i></span>
         </div>
+        <div class="tabs" role="tablist" aria-label="NavQL screens">
+          <button type="button" role="tab" id="t-sql" aria-controls="p-sql" aria-selected="true">SQL</button>
+          <button type="button" role="tab" id="t-records" aria-controls="p-records" aria-selected="false" tabindex="-1">Records</button>
+          <button type="button" role="tab" id="t-diagram" aria-controls="p-diagram" aria-selected="false" tabindex="-1">Diagram</button>
+          <button type="button" role="tab" id="t-conn" aria-controls="p-conn" aria-selected="false" tabindex="-1">Connections</button>
+          <button type="button" role="tab" id="t-struct" aria-controls="p-struct" aria-selected="false" tabindex="-1">Structure</button>
+          <button type="button" role="tab" id="t-redis" aria-controls="p-redis" aria-selected="false" tabindex="-1">Redis</button>
+        </div>
+
+        <figure class="panel" id="p-sql" role="tabpanel" aria-labelledby="t-sql" tabindex="0">
+          <div class="shot"><img src="assets/shots/query-1440.webp" srcset="assets/shots/query-1440.webp 1440w, assets/shots/query.webp 2880w" sizes="(max-width: 960px) 100vw, 700px" alt="Query editor with a SELECT grouping revenue by city and the result below" width="2880" height="1800" fetchpriority="high"></div>
+          <figcaption><p><strong>Write SQL with autocomplete that knows your schema.</strong> Run it and see the results right below.</p><a href="assets/shots/query.webp" target="_blank" rel="noopener">Open full-size image</a></figcaption>
+        </figure>
+        <figure class="panel" id="p-records" role="tabpanel" aria-labelledby="t-records" tabindex="0" hidden>
+          <div class="shot"><img src="assets/shots/value-1440.webp" srcset="assets/shots/value-1440.webp 1440w, assets/shots/value.webp 2880w" sizes="(max-width: 960px) 100vw, 700px" alt="Data grid of the orders table with the JSON of a cell shown as a tree in the side panel" width="2880" height="1800" loading="lazy"></div>
+          <figcaption><p><strong>Filter rows and edit cells in a fast grid.</strong> JSON and long text open in a searchable side panel.</p><a href="assets/shots/value.webp" target="_blank" rel="noopener">Open full-size image</a></figcaption>
+        </figure>
+        <figure class="panel" id="p-diagram" role="tabpanel" aria-labelledby="t-diagram" tabindex="0" hidden>
+          <div class="shot"><img src="assets/shots/diagram-1440.webp" srcset="assets/shots/diagram-1440.webp 1440w, assets/shots/diagram.webp 2880w" sizes="(max-width: 960px) 100vw, 700px" alt="Database diagram of a store schema: 15 tables connected by their foreign keys" width="2880" height="1800" loading="lazy"></div>
+          <figcaption><p><strong>See every table and how they connect.</strong> One click draws the schema, laid out automatically.</p><a href="assets/shots/diagram.webp" target="_blank" rel="noopener">Open full-size image</a></figcaption>
+        </figure>
+        <figure class="panel" id="p-conn" role="tabpanel" aria-labelledby="t-conn" tabindex="0" hidden>
+          <div class="shot"><img src="assets/shots/connections-1440.webp" srcset="assets/shots/connections-1440.webp 1440w, assets/shots/connections.webp 2880w" sizes="(max-width: 960px) 100vw, 700px" alt="NavQL connection list for the Store project: PostgreSQL, Redis, SQL Server and MongoDB connections, each with its own color and tag" width="2880" height="1800" loading="lazy"></div>
+          <figcaption><p><strong>Group connections into projects.</strong> Colors and tags keep production apart from staging and local.</p><a href="assets/shots/connections.webp" target="_blank" rel="noopener">Open full-size image</a></figcaption>
+        </figure>
+        <figure class="panel" id="p-struct" role="tabpanel" aria-labelledby="t-struct" tabindex="0" hidden>
+          <div class="shot"><img src="assets/shots/structure-1440.webp" srcset="assets/shots/structure-1440.webp 1440w, assets/shots/structure.webp 2880w" sizes="(max-width: 960px) 100vw, 700px" alt="Structure of the orders table: columns, types, indexes and foreign keys" width="2880" height="1800" loading="lazy"></div>
+          <figcaption><p><strong>Inspect columns, indexes and foreign keys.</strong> The full DDL is ready to copy.</p><a href="assets/shots/structure.webp" target="_blank" rel="noopener">Open full-size image</a></figcaption>
+        </figure>
+        <figure class="panel" id="p-redis" role="tabpanel" aria-labelledby="t-redis" tabindex="0" hidden>
+          <div class="shot"><img src="assets/shots/redis-1440.webp" srcset="assets/shots/redis-1440.webp 1440w, assets/shots/redis.webp 2880w" sizes="(max-width: 960px) 100vw, 700px" alt="Redis keys with the session prefix in a grid: key, type, TTL, size and value" width="2880" height="1800" loading="lazy"></div>
+          <figcaption><p><strong>Browse Redis keys grouped by prefix.</strong> Type, TTL, size and value, next to your SQL connections.</p><a href="assets/shots/redis.webp" target="_blank" rel="noopener">Open full-size image</a></figcaption>
+        </figure>
       </div>
     </div>
   </section>
 
   <div class="dbs">
     <div class="wrap">
-      <p>Connect the databases you already use</p>
+      <h2>Supported databases</h2>
       <ul>
+        <li><i style="background:var(--azul)"></i>PostgreSQL</li>
         <li><i style="background:var(--ciano)"></i>MySQL</li>
         <li><i style="background:var(--ciano)"></i>MariaDB</li>
-        <li><i style="background:var(--azul)"></i>PostgreSQL</li>
         <li><i style="background:var(--azul)"></i>SQL Server</li>
-        <li><i style="background:#a1a1aa"></i>SQLite</li>
+        <li><i style="background:#A1A1AA"></i>SQLite</li>
         <li><i style="background:var(--violeta)"></i>MongoDB</li>
         <li><i style="background:var(--violeta)"></i>Redis</li>
       </ul>
@@ -395,267 +391,78 @@
     </div>
   </div>
 
-  <section>
+  <section class="block demo on-dark" id="demo" aria-labelledby="demo-title">
     <div class="wrap">
-      <div class="section-head">
-        <span class="eyebrow">01 — Why NavQL</span>
-        <h2>All your databases, one place.</h2>
-        <p>Different databases, stacked together like the layers of the icon. No more switching tools for every project.</p>
-      </div>
-      <div class="pillars">
-        <article class="pillar">
-          <div class="bar" style="background:var(--ciano)"></div>
-          <h3>Precise</h3>
-          <p>Clean shapes and noise-free information, like a good query. You see the data, not the tool.</p>
-        </article>
-        <article class="pillar">
-          <div class="bar" style="background:var(--azul)"></div>
-          <h3>Fast</h3>
-          <p>A virtualized grid that opens thousands of rows instantly, keyboard shortcuts for everything and queries in milliseconds.</p>
-        </article>
-        <article class="pillar">
-          <div class="bar" style="background:var(--violeta)"></div>
-          <h3>Versatile</h3>
-          <p>SQL, documents and key-value side by side: tables, views, functions, collections and Redis keys in the same interface.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="tour" id="tour">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="eyebrow">02 — Tour</span>
-        <h2>Built for everyday data work.</h2>
-        <p>From your connection list to a finished query, just a few clicks away.</p>
-      </div>
-
-      <div class="tabs" role="tablist" aria-label="NavQL screens">
-        <button role="tab" id="t-conn" aria-controls="p-conn" aria-selected="true"><i style="background:var(--ciano)"></i>Connections</button>
-        <button role="tab" id="t-data" aria-controls="p-data" aria-selected="false" tabindex="-1"><i style="background:var(--azul)"></i>Data</button>
-        <button role="tab" id="t-query" aria-controls="p-query" aria-selected="false" tabindex="-1"><i style="background:var(--violeta)"></i>Queries</button>
-        <button role="tab" id="t-struct" aria-controls="p-struct" aria-selected="false" tabindex="-1"><i style="background:#a1a1aa"></i>Structure</button>
-        <button role="tab" id="t-diagram" aria-controls="p-diagram" aria-selected="false" tabindex="-1"><i style="background:var(--ciano)"></i>Diagram</button>
-        <button role="tab" id="t-redis" aria-controls="p-redis" aria-selected="false" tabindex="-1"><i style="background:var(--violeta)"></i>Redis</button>
-      </div>
-
-      <div class="panel" id="p-conn" role="tabpanel" aria-labelledby="t-conn">
-        <div class="tour-grid">
-          <div class="window">
-            <img src="assets/shots/connections-1440.webp" srcset="assets/shots/connections-1440.webp 1440w, assets/shots/connections.webp 2880w" sizes="(max-width: 960px) 100vw, 800px" alt="NavQL connection list for the Store project: PostgreSQL, Redis, SQL Server and MongoDB connections, each with its own color and tag" loading="lazy" width="2880" height="1800"></div>
-          <div class="tour-copy">
-            <h3>Every connection at a glance</h3>
-            <p>Each connection gets its own color and tag, so you never mistake production for development.</p>
-            <ul>
-              <li>Tags like <span class="mono">production</span>, <span class="mono">staging</span> and <span class="mono">local</span></li>
-              <li>New connection from a form, a URL or a SQLite file</li>
-              <li>Group connections into projects, with a searchable list</li>
-              <li>Keep several connections open in one window</li>
-              <li>Built-in SSH tunnel and SSL</li>
-              <li>Fully keyboard navigable</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel" id="p-data" role="tabpanel" aria-labelledby="t-data" hidden>
-        <div class="tour-grid">
-          <div class="window">
-            <img src="assets/shots/value-1440.webp" srcset="assets/shots/value-1440.webp 1440w, assets/shots/value.webp 2880w" sizes="(max-width: 960px) 100vw, 800px" alt="Data grid of the orders table with the JSON of a cell shown as a tree in the side panel" loading="lazy" width="2880" height="1800"></div>
-          <div class="tour-copy">
-            <h3>Data in a fast grid</h3>
-            <p>Open a table and scroll through thousands of rows without a stutter. Edit cells, add rows and apply filters.</p>
-            <ul>
-              <li>Virtualized grid with pagination</li>
-              <li>Inline editing with a review before saving</li>
-              <li>Filters and sorting, remembered for each table</li>
-              <li>JSON and long text in a searchable value preview</li>
-              <li>Export your results</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel" id="p-query" role="tabpanel" aria-labelledby="t-query" hidden>
-        <div class="tour-grid">
-          <div class="window">
-            <img src="assets/shots/query-1440.webp" srcset="assets/shots/query-1440.webp 1440w, assets/shots/query.webp 2880w" sizes="(max-width: 960px) 100vw, 800px" alt="Query editor with a SELECT grouping revenue by city and the result below" loading="lazy" width="2880" height="1800"></div>
-          <div class="tour-copy">
-            <h3>A real SQL editor</h3>
-            <p>Write, format and run queries with autocomplete that knows your schema.</p>
-            <ul>
-              <li>Run the current query or all of them at once</li>
-              <li>Explain, Beautify and saved queries</li>
-              <li>SQL Server batches split at <span class="mono">GO</span>; every result set of a <span class="mono">CALL</span></li>
-              <li>History of everything you ran</li>
-              <li>AI assistant to write and explain SQL</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel" id="p-struct" role="tabpanel" aria-labelledby="t-struct" hidden>
-        <div class="tour-grid">
-          <div class="window">
-            <img src="assets/shots/structure-1440.webp" srcset="assets/shots/structure-1440.webp 1440w, assets/shots/structure.webp 2880w" sizes="(max-width: 960px) 100vw, 800px" alt="Structure of the orders table: columns, types, indexes and foreign keys" loading="lazy" width="2880" height="1800"></div>
-          <div class="tour-copy">
-            <h3>Structure, demystified</h3>
-            <p>Columns, types, indexes and foreign keys for every table, plus the full DDL.</p>
-            <ul>
-              <li>Add columns and indexes from the UI</li>
-              <li>DDL ready to copy</li>
-              <li>Views, functions and procedures in the sidebar</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel" id="p-diagram" role="tabpanel" aria-labelledby="t-diagram" hidden>
-        <div class="tour-grid">
-          <div class="window">
-            <img src="assets/shots/diagram-1440.webp" srcset="assets/shots/diagram-1440.webp 1440w, assets/shots/diagram.webp 2880w" sizes="(max-width: 960px) 100vw, 800px" alt="Database diagram of a store schema: 15 tables connected by their foreign keys" loading="lazy" width="2880" height="1800"></div>
-          <div class="tour-copy">
-            <h3>Your schema as a diagram</h3>
-            <p>One click draws every table and how they connect, laid out automatically.</p>
-            <ul>
-              <li>Primary and foreign keys with column types</li>
-              <li>Crow's foot lines that show optional relations</li>
-              <li>Drag tables around; NavQL remembers where</li>
-              <li>Zoom, minimap and a notation legend</li>
-              <li>Export as PNG or SVG</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    <div class="panel" id="p-redis" role="tabpanel" aria-labelledby="t-redis" hidden>
-        <div class="tour-grid">
-          <div class="window">
-            <img src="assets/shots/redis-1440.webp" srcset="assets/shots/redis-1440.webp 1440w, assets/shots/redis.webp 2880w" sizes="(max-width: 960px) 100vw, 800px" alt="Redis keys with the session prefix in a grid: key, type, TTL, size and value" loading="lazy" width="2880" height="1800"></div>
-          <div class="tour-copy">
-            <h3>Redis, in the same window</h3>
-            <p>Keys are grouped by prefix and open in the same grid as your tables, next to your SQL connections.</p>
-            <ul>
-              <li>Type, TTL, size and value for every key</li>
-              <li>Edit values and TTLs, applied in one <span class="mono">MULTI</span></li>
-              <li>A redis-cli style command editor</li>
-              <li>Read-only mode that blocks write commands</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="features">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="eyebrow">03 — Features</span>
-        <h2>The essentials, done right.</h2>
-      </div>
-      <div class="features">
-        <div class="feature">
-          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#22D3EE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-          <h3>SSH tunnel and SSL</h3>
-          <p>Reach databases on private networks without opening ports. Secrets are stored with AES-256 encryption.</p>
-        </div>
-        <div class="feature">
-          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#4F7CFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></div>
-          <h3>Safe mode</h3>
-          <p>Read-only connections and a confirmation step before commands that change production data.</p>
-        </div>
-        <div class="feature">
-          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></div>
-          <h3>AI assistant</h3>
-          <p>Describe what you need and get ready-to-run SQL, using your database schema as context.</p>
-        </div>
-        <div class="feature">
-          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#22D3EE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></div>
-          <h3>Backups</h3>
-          <p>One-click dumps of PostgreSQL, MySQL, MariaDB and MongoDB, with progress tracking and download.</p>
-        </div>
-        <div class="feature">
-          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#4F7CFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 15l3-3-3-3M13 15h4"/></svg></div>
-          <h3>Keyboard first</h3>
-          <p>Open any table with <span class="mono">⌘P</span>, start a query with <span class="mono">⌥T</span> and run it with <span class="mono">⌘↵</span>.</p>
-        </div>
-        <div class="feature">
-          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></div>
-          <h3>Export</h3>
-          <p>Export results to CSV, JSON or SQL and share them without copy-pasting.</p>
-        </div>
-        <div class="feature">
-          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#22D3EE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5M13 4v5"/></svg></div>
-          <h3>Many connections, one window</h3>
-          <p>Group connections into projects and keep several open side by side, each with its own tabs. Switch with <span class="mono">⌃1</span>–<span class="mono">⌃9</span>.</p>
-        </div>
-        <div class="feature">
-          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#4F7CFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M4 12h16M4 17h7"/><circle cx="18" cy="7" r="2"/><circle cx="15" cy="17" r="2"/></svg></div>
-          <h3>Redis, natively</h3>
-          <p>Keys grouped by prefix with type, TTL and size, edits in a single <span class="mono">MULTI</span>, and a redis-cli style command editor.</p>
-        </div>
-        <div class="feature">
-          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v5h-5"/></svg></div>
-          <h3>Always up to date</h3>
-          <p>NavQL checks for new versions on its own, downloads them in the background and installs on restart.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section style="padding-top:0">
-    <div class="wrap code-band">
       <div>
-        <span class="eyebrow">04 — Queries</span>
-        <h2>Ask. NavQL answers.</h2>
-        <p style="color:var(--muted);font-size:17px;margin:0 0 28px">From a quick <span class="mono">SELECT</span> to a report full of <span class="mono">JOIN</span>s, results show up right below, ready to filter, edit or export.</p>
-        <div class="code" aria-label="Sample SQL query"><span class="k">SELECT</span> name, email
-<span class="k">FROM</span> <span class="t">customers</span>
-<span class="k">WHERE</span> plan = <span class="s">'pro'</span>
-<span class="k">LIMIT</span> <span class="n">50</span>;</div>
+        <p class="label">Demo · 48 seconds · PostgreSQL</p>
+        <h2 id="demo-title">Start with an order. Find the customer.</h2>
+        <p class="intro">Filter the orders table, then follow a foreign key straight to the customer who placed the order.</p>
+        <ol class="steps">
+          <li><span>01</span>Open a PostgreSQL connection</li>
+          <li><span>02</span>Filter the orders</li>
+          <li><span>03</span>Follow the foreign key to the customer</li>
+          <li><span>04</span>See the rows related to that customer</li>
+          <li><span>05</span>Write a query with autocomplete and open the diagram</li>
+        </ol>
       </div>
-      <img class="shot" src="assets/shots/query-1440.webp" srcset="assets/shots/query-1440.webp 1440w, assets/shots/query.webp 2880w" sizes="(max-width: 960px) 100vw, 560px" alt="Result of a query grouped by city in NavQL" loading="lazy" width="2880" height="1800">
-    </div>
-  </section>
-
-  <section style="padding-top:0">
-    <div class="wrap code-band diagram-band">
-      <img class="shot" src="assets/shots/diagram-focus-1440.webp" srcset="assets/shots/diagram-focus-1440.webp 1440w, assets/shots/diagram-focus.webp 2880w" sizes="(max-width: 960px) 100vw, 560px" alt="The orders table selected in the diagram, with its related tables highlighted and the rest faded" loading="lazy" width="2880" height="1800">
-      <div class="tour-copy">
-        <span class="eyebrow">05 — Diagram</span>
-        <h2>See how it all connects.</h2>
-        <p style="color:var(--muted);font-size:17px;margin:0 0 28px">Click a table and NavQL lights up everything it touches, so a new schema makes sense in seconds.</p>
-        <ul>
-          <li>Search for a table and jump straight to it</li>
-          <li>Large schemas open with the most connected tables first</li>
-          <li>Point at a line to see the columns it joins and the cardinality</li>
-          <li>Double-click a table to open its data</li>
-        </ul>
+      <div>
+        <div class="video" id="demo-video">
+          <video id="demo-player" controls playsinline preload="metadata" poster="assets/video/navql-demo-poster.webp" width="1920" height="1200" aria-label="NavQL demo: opening a PostgreSQL connection, filtering orders, following a foreign key to the customer, the rows related to that customer, a query with autocomplete and the database diagram">
+            <source src="assets/video/navql-demo.webm" type="video/webm">
+            <source src="assets/video/navql-demo.mp4" type="video/mp4">
+          </video>
+        </div>
+        <p class="meta">Recorded in NavQL on macOS, no sound.</p>
       </div>
     </div>
   </section>
 
-  <section style="padding-top:0">
-    <div class="wrap code-band">
-      <div class="tour-copy">
-        <span class="eyebrow">06 — macOS</span>
-        <h2>At home on the Mac.</h2>
-        <p style="color:var(--muted);font-size:17px;margin:0 0 28px">NavQL is a real Mac app, with a window that looks and behaves like the rest of your system.</p>
-        <ul>
-          <li>Light and dark themes, or follow the system</li>
-          <li>Translucent sidebar and toolbar</li>
-          <li>Window controls in the toolbar, with no title bar taking up space</li>
-          <li>Built for Apple Silicon</li>
-        </ul>
-      </div>
-      <img class="shot" src="assets/shots/table-light-1440.webp" srcset="assets/shots/table-light-1440.webp 1440w, assets/shots/table-light.webp 2880w" sizes="(max-width: 960px) 100vw, 560px" alt="NavQL on macOS in the light theme, showing the customers table" loading="lazy" width="2880" height="1800">
-    </div>
-  </section>
-
-  <section id="faq" style="padding-top:0">
+  <section class="block" id="features" aria-labelledby="features-title">
     <div class="wrap">
       <div class="section-head">
-        <span class="eyebrow">07 — Questions</span>
-        <h2>Good to know.</h2>
+        <p class="label">Built for real databases</p>
+        <h2 id="features-title">Safe from the first connection to the last export.</h2>
+      </div>
+      <div class="benefits">
+        <article class="benefit">
+          <div class="bar" style="background:var(--ciano)"></div>
+          <h3>Reach private databases</h3>
+          <p>Every connection can use a built-in SSH tunnel and SSL, so you can reach databases that are not open to the internet. Passwords and SSH keys are encrypted on your computer.</p>
+        </article>
+        <article class="benefit">
+          <div class="bar" style="background:var(--azul)"></div>
+          <h3>Review changes before you write</h3>
+          <p>Edit cells in the grid and review every change before saving. Read-only connections and a confirmation step protect production data.</p>
+        </article>
+        <article class="benefit">
+          <div class="bar" style="background:var(--violeta)"></div>
+          <h3>Export data and create backups</h3>
+          <p>Export results to CSV, JSON or SQL. Back up PostgreSQL, MySQL, MariaDB and MongoDB in one click, with progress tracking and download.</p>
+        </article>
+      </div>
+
+      <div class="schema">
+        <div class="shot"><img src="assets/shots/diagram-focus-1440.webp" srcset="assets/shots/diagram-focus-1440.webp 1440w, assets/shots/diagram-focus.webp 2880w" sizes="(max-width: 1080px) 100vw, 680px" alt="The orders table selected in the diagram, with its related tables highlighted and the rest faded" width="2880" height="1800" loading="lazy"></div>
+        <div class="copy-col">
+          <p class="label">Diagram</p>
+          <h2>Find your way through an unfamiliar schema.</h2>
+          <p>Click a table and NavQL highlights everything it touches, so a new schema makes sense in seconds.</p>
+          <ul class="checks">
+            <li>Search for a table and jump straight to it</li>
+            <li>Point at a line to see the columns it joins and the cardinality</li>
+            <li>Double-click a table to open its data</li>
+            <li>Export the diagram as PNG or SVG</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block faq-section" id="faq" aria-labelledby="faq-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="label">Questions</p>
+        <h2 id="faq-title">Good to know.</h2>
       </div>
       <div class="faq">
         <details><summary>Is NavQL free?</summary><p>Yes. NavQL is free of charge for personal and commercial work, on any number of your own computers. It is not open source.</p></details>
@@ -670,22 +477,11 @@
     </div>
   </section>
 
-  <section class="download" id="download">
+  <section class="block download" id="download" aria-labelledby="download-title">
     <div class="wrap">
-      <div class="icon-wrap">
-        <svg viewBox="0 0 120 120" role="img" aria-label="NavQL icon">
-          <defs><clipPath id="dl-clip"><rect width="120" height="120" rx="28"/></clipPath></defs>
-          <g clip-path="url(#dl-clip)">
-            <rect width="120" height="120" fill="#0A0A0B"/>
-            <ellipse class="i3" cx="88" cy="102" rx="44" ry="14" fill="#8B5CF6"/>
-            <ellipse class="i2" cx="88" cy="84" rx="44" ry="14" fill="#4F7CFF"/>
-            <ellipse class="i1" cx="88" cy="66" rx="44" ry="14" fill="#22D3EE"/>
-          </g>
-          <path d="M18.442 50.0V26.57H23.986L33.292 42.74V26.57H38.308V50.0H32.698L23.458 34.391V50.0Z" fill="#FFFFFF"/><path d="M58.06100000000001 52.046 56.246 49.769Q54.629000000000005 50.528 52.055 50.528Q48.59 50.528 46.04900000000001 48.960499999999996Q43.508 47.393 42.122 44.6375Q40.736000000000004 41.882 40.736000000000004 38.318Q40.736000000000004 34.82 42.039500000000004 32.048Q43.343 29.276 45.86750000000001 27.659Q48.392 26.041999999999998 52.055 26.041999999999998Q55.718 26.041999999999998 58.226 27.659Q60.734 29.276 62.0375 32.048Q63.341 34.82 63.341 38.318Q63.341 41.585 62.2355 44.06Q61.13 46.535 59.084 48.185L62.18600000000001 52.046ZM52.055 46.304Q52.979 46.304 53.540000000000006 46.073L50.273 42.08H54.431000000000004L56.147000000000006 44.357Q57.104 43.433 57.632000000000005 41.9645Q58.160000000000004 40.495999999999995 58.160000000000004 38.318Q58.160000000000004 36.173 57.51650000000001 34.341499999999996Q56.873000000000005 32.51 55.52 31.387999999999998Q54.167 30.266 52.055 30.266Q49.910000000000004 30.266 48.557 31.387999999999998Q47.204 32.51 46.560500000000005 34.341499999999996Q45.917 36.173 45.917 38.318Q45.917 40.43 46.560500000000005 42.2615Q47.204 44.093 48.557 45.1985Q49.910000000000004 46.304 52.055 46.304Z" fill="#FFFFFF"/><path d="M65.769 50.0V26.57H70.78500000000001V45.775999999999996H81.57600000000001V50.0Z" fill="#FFFFFF"/>
-        </svg>
-      </div>
-      <h2>Get Nav<span class="ql">QL</span>.</h2>
-      <p>Free for macOS, Windows and Linux. Connect your first database in under a minute.</p>
+      <img class="icon" src="assets/navql-icone.svg" alt="" width="72" height="72">
+      <h2 id="download-title">Get Nav<span class="ql">QL</span>.</h2>
+      <p class="sub">Free for macOS, Windows and Linux. Accept the terms to unlock the installers.</p>
       <label class="agree" id="agree-label"><input type="checkbox" id="agree"> <span>I have read and agree to the <a href="terms.html">Terms of Use</a> and the <a href="privacy.html">Privacy Policy</a>, including the anonymous usage statistics the app sends (you can turn them off in the app).</span></label>
       <div class="platforms locked">
         <a class="platform" data-os="mac" href="https://github.com/navql/releases/releases/download/v0.4.13/NavQL-0.4.13-arm64.dmg"><strong>macOS</strong><span>Apple Silicon · .dmg</span><em>Download for Mac →</em></a>
@@ -716,7 +512,11 @@
 
 <footer>
   <div class="wrap">
-    <img src="assets/navql-logo-fundo-escuro.svg" alt="NavQL" width="79" height="24">
+    <a class="brand" href="#main" aria-label="NavQL, back to top">
+      <picture>
+        <img src="assets/navql-logo-fundo-escuro.svg" alt="NavQL" width="79" height="24">
+      </picture>
+    </a>
     <p>Free database client for MySQL, MariaDB, PostgreSQL, SQL Server, SQLite, MongoDB and Redis · © 2026 NavQL</p>
     <nav aria-label="Footer"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="https://github.com/navql/releases/releases">Releases</a><a href="#main">Back to top</a></nav>
   </div>
@@ -724,60 +524,44 @@
 
 <script>
   (function () {
-    var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+    // Product tour: tabs with click and keyboard (arrows, Home, End)
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.tabs [role="tab"]'));
     function select(tab, focus) {
       tabs.forEach(function (t) {
         var on = t === tab;
-        t.setAttribute('aria-selected', on);
+        t.setAttribute('aria-selected', String(on));
         t.tabIndex = on ? 0 : -1;
         document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
       });
       if (focus) tab.focus();
     }
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { select(t); });
+      t.addEventListener('keydown', function (e) {
+        var n = tabs.length, next = null;
+        if (e.key === 'ArrowRight') next = (i + 1) % n;
+        else if (e.key === 'ArrowLeft') next = (i - 1 + n) % n;
+        else if (e.key === 'Home') next = 0;
+        else if (e.key === 'End') next = n - 1;
+        if (next === null) return;
+        e.preventDefault();
+        select(tabs[next], true);
+      });
+    });
+
+    // "Watch the demo": scroll to the video and start it
+    var player = document.getElementById('demo-player');
+    var watch = document.getElementById('watch-demo');
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    // Demo video: plays only while on screen; with reduced motion it stays on its poster, with controls.
-    var demo = document.getElementById('demo');
-    if (demo) {
-      if (reduce) {
-        demo.controls = true;
-      } else if ('IntersectionObserver' in window) {
-        new IntersectionObserver(function (entries) {
-          entries.forEach(function (en) {
-            if (en.isIntersecting) { var p = demo.play(); if (p && p.catch) p.catch(function () {}); }
-            else demo.pause();
-          });
-        }, { threshold: .25 }).observe(demo);
-      } else {
-        demo.autoplay = true;
-      }
-    }
-
-    // Hero discs gently follow the mouse (parallax)
-    var discs = document.querySelector('.hero-discs');
-    var hero = document.querySelector('.hero');
-    if (discs && hero && !reduce && window.matchMedia('(pointer: fine)').matches) {
-      hero.addEventListener('mousemove', function (e) {
-        var r = hero.getBoundingClientRect();
-        var x = (e.clientX - r.left) / r.width - .5;
-        var y = (e.clientY - r.top) / r.height - .5;
-        discs.style.setProperty('--px', (x * -24).toFixed(1) + 'px');
-        discs.style.setProperty('--py', (y * -16).toFixed(1) + 'px');
+    if (player && watch) {
+      watch.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.getElementById('demo-video').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+        if (history.replaceState) history.replaceState(null, '', '#demo-video');
+        var p = player.play();
+        if (p && p.catch) p.catch(function () {});
+        player.focus({ preventScroll: true });
       });
-      hero.addEventListener('mouseleave', function () {
-        discs.style.setProperty('--px', '0px');
-        discs.style.setProperty('--py', '0px');
-      });
-    }
-
-    // Download icon animates when it scrolls into view
-    var dl = document.querySelector('.download');
-    if (dl && 'IntersectionObserver' in window) {
-      new IntersectionObserver(function (entries, obs) {
-        entries.forEach(function (en) {
-          if (en.isIntersecting) { dl.classList.add('in-view'); obs.disconnect(); }
-        });
-      }, { threshold: .5 }).observe(dl);
     }
 
     // Download cards: mark the visitor's system, and point at the newest release
@@ -865,27 +649,6 @@
       };
       if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback);
       else fallback();
-    });
-
-    // Fade sections up as they enter the viewport
-    if (!reduce && 'IntersectionObserver' in window) {
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) {
-          if (en.isIntersecting) { en.target.classList.add('shown'); io.unobserve(en.target); }
-        });
-      }, { rootMargin: '0px 0px -8% 0px' });
-      Array.prototype.forEach.call(
-        document.querySelectorAll('.section-head, .pillar, .tabs, .features, .code-band > *, .platforms, .dbs ul'),
-        function (el) { el.classList.add('reveal'); io.observe(el); }
-      );
-    }
-
-    tabs.forEach(function (t, i) {
-      t.addEventListener('click', function () { select(t); });
-      t.addEventListener('keydown', function (e) {
-        if (e.key === 'ArrowRight') select(tabs[(i + 1) % tabs.length], true);
-        if (e.key === 'ArrowLeft') select(tabs[(i - 1 + tabs.length) % tabs.length], true);
-      });
     });
   })();
 </script>
