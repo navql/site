@@ -28,7 +28,7 @@ Facts below are current as of version 0.4.14 (November 2026). Website: https://n
 - Data grid: virtualized, fast on large tables; inline editing; insert, duplicate and delete rows as pending changes; preview the SQL; commit all changes in one transaction with Cmd+S; filters on any column (=, contains, IN, BETWEEN, IS NULL, AND/OR) or a free WHERE; follow a foreign key from a cell; JSON and long text in a searchable side panel.
 - Related rows: a tree of every row linked to a row by foreign keys, in both directions (references and referenced by), as many levels deep as needed. PostgreSQL, MySQL/MariaDB, SQL Server, SQLite and compatible servers.
 - Visual query builder: base table, joins along foreign keys or with a hand-written ON, filters, aggregates, DISTINCT, COUNT DISTINCT, HAVING, calculated columns; live SQL; save builders with the queries. PostgreSQL, MySQL/MariaDB, SQL Server, SQLite.
-- Structure: columns, indexes, foreign keys and DDL; edit columns in place, applied as ALTER TABLE (PostgreSQL, MySQL/MariaDB, SQL Server, SQLite).
+- Structure: columns, indexes, foreign keys and DDL; edit columns in place, applied as ALTER TABLE after showing the statement (PostgreSQL, MySQL/MariaDB, SQL Server, SQLite).
 - Database diagram: drawn from the foreign keys, laid out automatically, exported as PNG or SVG.
 - SQL editor: autocomplete per dialect, run statement under cursor or all, formatting, several result tabs, saved queries and history, cancel a running query. MongoDB uses shell syntax (find, aggregate, insertMany, updateMany…).
 - Activity tab (all databases except SQLite): live server metrics; every session with its query and waits, including who blocks whom; cancel a query or end a session; top queries from the server's own statistics (pg_stat_statements, performance_schema, TiDB statements_summary, SQL Server plan cache) with rows examined on MySQL, MariaDB and TiDB; Health checks (unused and duplicate indexes, full scans, missing primary keys, dead rows, stale statistics, XID wraparound, invalid indexes, OPTIMIZE TABLE, missing indexes on SQL Server) with suggested commands that never run on their own; server settings with defaults. Redis: memory, hit rate, clients (unblock, kill) and slow log. MongoDB: serverStatus, current operations (kill) and profiler.
@@ -45,7 +45,7 @@ Facts below are current as of version 0.4.14 (November 2026). Website: https://n
 
 ## Pages
 
-- [Home](https://navql.com/): overview, demo video, FAQ and downloads
+- [Home](https://navql.com/): overview, demo video, the database management features ("Built for the work after SELECT"), FAQ and downloads
 - [PostgreSQL client](https://navql.com/postgresql-client/)
 - [MySQL client](https://navql.com/mysql-client/)
 - [MariaDB client](https://navql.com/mariadb-client/)
@@ -70,7 +70,7 @@ Facts below are current as of version 0.4.14 (November 2026). Website: https://n
 - [NavQL vs Beekeeper Studio](https://navql.com/alternatives/beekeeper-studio/)
 - [NavQL vs pgAdmin](https://navql.com/alternatives/pgadmin/)
 - [NavQL vs Navicat](https://navql.com/alternatives/navicat/)
-- [NavQL vs DB Pro](https://navql.com/alternatives/db-pro/)
+- [NavQL vs DB Pro](https://navql.com/alternatives/db-pro/): DB Pro has dashboards, workflows and more AI providers; NavQL adds server activity (sessions, cancel, top queries, health), backups, truncate cascade, a visual query builder and real read-only connections
 
 ## Legal
 

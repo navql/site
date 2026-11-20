@@ -17,6 +17,12 @@ ROOT = Path(__file__).resolve().parent.parent
 SITE = 'https://navql.com'
 CHECKED = '19 November 2026'
 LASTMOD = '2026-11-19'
+# Pages changed after LASTMOD, for the sitemap and dateModified
+MODIFIED = {'/': '2026-11-20', '/alternatives/db-pro/': '2026-11-20'}
+
+
+def lastmod(path):
+    return MODIFIED.get(path, LASTMOD)
 
 # ---------------------------------------------------------------------------------------------
 # Screenshots (all real NavQL screens, in assets/shots)
@@ -90,6 +96,39 @@ def backup_pg():
             'Back up a whole database in one click with <code>pg_dump --format=custom</code>. It runs in the '
             'background, streams straight to a file, works through the SSH tunnel and shows progress. Restore with '
             '<code>pg_restore</code>.')
+
+
+# The work after SELECT: managing the database, not only reading it. Used on the home page
+# (between the <!-- depth --> markers) and on the DB Pro comparison. Each card is (tag, title, html).
+DEPTH = [
+    ('pg_cancel_backend · KILL QUERY', 'Sessions, locks and cancel',
+     'The Activity tab lists every session on the server with its query, state and wait, including who blocks whom. '
+     'Cancel a query or end a session from the same screen.'),
+    ('pg_stat_statements · performance_schema', 'Top queries and health',
+     'The statements that took the most time, from the server\'s own statistics. Health checks point at unused '
+     'indexes, full scans and dead rows, with a suggested fix that never runs on its own.'),
+    ('pg_dump · mysqldump · mongodump', 'Backups in one click',
+     'The official dump tool runs in the background, streams straight to a file, works through the SSH tunnel and '
+     'shows progress. SQLite uses its own online backup.'),
+    ('ALTER TABLE', 'Edit the structure',
+     'Change columns in place in the Structure view. NavQL shows the <code>ALTER TABLE</code> it will run and '
+     'applies it only when you confirm.'),
+    ('References · Referenced by', 'Related rows, as a tree',
+     'Open a row and see everything linked to it by foreign keys, in both directions. Each row opens its own '
+     'relationships, as many levels deep as you need.'),
+    ('JOIN · GROUP BY · HAVING', 'Visual query builder',
+     'Joins along foreign keys or with your own <code>ON</code>, filters, aggregates, <code>HAVING</code> and '
+     'calculated columns, with the SQL written live as you click.'),
+    ('READ ONLY transaction', 'Read only that really is',
+     'Read-only connections accept only reading statements and, on PostgreSQL and MySQL, run them inside a '
+     '<code>READ ONLY</code> transaction, so a CTE with <code>DELETE</code> is refused too.'),
+    ('TRUNCATE … CASCADE', 'Truncate cascade',
+     'Empty a table and every table that references it, directly or not, after seeing the list. On MySQL and '
+     'SQLite, which have no cascade, NavQL empties them one by one.'),
+    ('CockroachDB · TimescaleDB · TiDB · Valkey · Dragonfly', 'Compatible servers by name',
+     'Detected and shown by name, with the differences handled: <code>CANCEL QUERIES</code> on CockroachDB, a '
+     'rolled-back transaction for read only on TiDB, internal schemas kept out of autocomplete.'),
+]
 
 
 DATABASES = [
@@ -644,24 +683,36 @@ ALTS = [
          us=['You want a free client for commercial work', 'You want monitoring in the same app as your data', 'You want to follow rows across foreign keys as a tree'],
          faq=[('Does NavQL do data modeling like Navicat?',
                'No. NavQL draws the diagram of an existing database and edits columns in place, but it is not a modeling tool.')]),
-    dict(slug='db-pro', name='DB Pro', site='https://dbpro.app/', shot='connections',
-         desc='NavQL vs DB Pro, honestly: DB Pro has ClickHouse, DynamoDB and dashboards; NavQL is free without limits, with server activity and backups.',
-         lead='DB Pro is a modern desktop database client with dashboards and an AI chat. NavQL is free without connection or '
-              'tab limits and focuses on following data, watching the server and backing it up.',
+    dict(slug='db-pro', name='DB Pro', site='https://dbpro.app/', shot='structure', checked='20 November 2026', depth=True,
+         desc='NavQL vs DB Pro, honestly: DB Pro has dashboards, workflows and ClickHouse; NavQL manages the server today: sessions, cancel, top queries, backups.',
+         lead='DB Pro is a modern desktop database client with dashboards, workflows and an AI chat. NavQL goes deeper into '
+              'the database itself: sessions and locks, cancelling queries, top queries, backups and real read-only '
+              'connections, free without connection or tab limits.',
          rows=[('Price model', 'Free for personal and commercial work, no limits', 'Free plan limited to 2 connections, 3 open tabs, 5 saved queries and 1 device; paid plans remove limits (per its pricing page)'),
                ('Platforms', 'macOS (Apple Silicon), Windows, Linux', 'macOS, Windows, Linux'),
-               ('Active sessions and cancelling queries', 'Yes, with top queries and health checks', 'On its public roadmap, not yet available'),
-               ('Backups', 'pg_dump, mysqldump, mongodump, SQLite online backup', 'Not listed on its website'),
-               ('Visual query builder', 'Yes', 'Not listed on its website'),
-               ('Read-only connections', 'Yes, with READ ONLY transactions on PostgreSQL and MySQL', 'Not listed on its website (it lists guard rails for its AI chat)'),
-               ('Related rows as a tree', 'Yes', 'Not listed on its website'),
-               ('CockroachDB, TimescaleDB, TiDB, Valkey, Dragonfly', 'Yes, detected by name', 'Not listed on its website'),
+               ('Active sessions and who blocks whom', 'Yes, in the Activity tab, on every database except SQLite', '“View active connections” is on its roadmap under Deeper Database Management, at 0%'),
+               ('Cancel a running query or end a session', 'Yes: pg_cancel_backend / pg_terminate_backend, KILL QUERY / KILL, CANCEL QUERIES on CockroachDB', '“Cancel a running query” is on its roadmap under Deeper Database Management, at 0%'),
+               ('Top queries from server statistics', 'Yes: pg_stat_statements, performance_schema, TiDB statements_summary, SQL Server plan cache', 'Not listed on its website (it lists a history of the queries you ran)'),
+               ('Health checks', 'Unused and duplicate indexes, full scans, dead rows, XID wraparound…, with the suggested command', 'Not listed on its website; index creation and maintenance (VACUUM, ANALYZE, REINDEX) are on its roadmap at 0%'),
+               ('Backups', 'pg_dump, mysqldump, mongodump, SQLite online backup; in the background, through the SSH tunnel', 'Not listed on its website (it lists CSV and JSON export)'),
+               ('Edit the structure', 'Edit columns in place, applied as ALTER TABLE after you see the statement', 'Schema editing is listed as done on its roadmap'),
+               ('Truncate', 'Truncate and truncate cascade, which lists every referencing table first', 'Truncate is listed; a cascade is not'),
+               ('Related rows', 'A tree of related rows in both directions, as many levels deep as you need', 'Its inspector shows a row’s relationships; a tree of related rows is not listed'),
+               ('Visual query builder', 'Yes: joins, filters, aggregates, HAVING, calculated columns', 'Not listed on its website (its AI chat writes queries from a sentence)'),
+               ('Read-only connections', 'Yes, run inside a READ ONLY transaction on PostgreSQL and MySQL', 'Not listed; it lists guard rails that block writes in its AI chat and warnings for destructive queries'),
+               ('CockroachDB, TimescaleDB, TiDB, Valkey, Dragonfly', 'Yes, detected by name, with the differences handled', 'Not in the list of supported databases on its website'),
                ('ClickHouse, DynamoDB, Turso, PlanetScale', 'No', 'Yes'),
+               ('Dashboards and workflows', 'No', 'Yes'),
                ('AI providers', 'Anthropic (your own key)', 'OpenAI, Anthropic, Google, Ollama, OpenRouter')],
-         them=['You use ClickHouse, DynamoDB or Turso', 'You want dashboards built from queries', 'You want to choose between several AI providers or a local model'],
-         us=['You want more than 2 connections and 3 tabs without paying', 'You want to see sessions, cancel queries and find slow statements today', 'You want one-click backups and real read-only connections'],
+         them=['You use ClickHouse, DynamoDB or Turso', 'You want dashboards and workflows built from queries', 'You want to choose between several AI providers or a local model', 'You want a web workspace for a team'],
+         us=['You want to see sessions and locks and cancel a query today', 'You want top queries and health checks from the server\'s own statistics', 'You want one-click backups with pg_dump, mysqldump or mongodump', 'You want real read-only connections and truncate cascade', 'You use CockroachDB, TimescaleDB, TiDB, Valkey or Dragonfly', 'You want more than 2 connections and 3 tabs without paying'],
          faq=[('Is DB Pro free?',
-               'It has a free plan with limits (2 connections, 3 open tabs, 5 saved queries, 1 device) and paid plans. NavQL is free without those limits.')]),
+               'It has a free plan with limits (2 connections, 3 open tabs, 5 saved queries, 1 device) and paid plans. NavQL is free without those limits.'),
+              ('Can NavQL cancel a running query?',
+               'Yes. From the editor, or from the Activity tab, where every session on the server is listed with its query. You can also end a session. On DB Pro, cancelling a running query is on its roadmap.'),
+              ('Can NavQL back up a database?',
+               'Yes, in one click: PostgreSQL with pg_dump, MySQL and MariaDB with mysqldump, MongoDB with mongodump and SQLite with its online backup. '
+               'Restore with the database\'s own tool. SQL Server, Redis, CockroachDB and TiDB backups are not available yet.')]),
 ]
 
 # ---------------------------------------------------------------------------------------------
@@ -850,7 +901,7 @@ def db_page(d):
     features = [text(t) for t, _ in d['cards']]
     data = [app_ld(d['desc'], features, path),
             {'@context': 'https://schema.org', '@type': 'WebPage', 'name': d['title'], 'url': SITE + path,
-             'description': d['desc'], 'inLanguage': 'en', 'dateModified': LASTMOD,
+             'description': d['desc'], 'inLanguage': 'en', 'dateModified': lastmod(path),
              'about': {'@type': 'SoftwareApplication', 'name': d['name']}},
             crumbs_ld(trail), faq_ld(d['faq'])]
     out = head(d['title'], d['desc'], path, SHOTS[d['shot']], data)
@@ -914,7 +965,7 @@ def alt_page(a):
     title = f'NavQL vs {a["name"]}: a free {a["name"]} alternative'
     trail = [('NavQL', '/', '/'), ('Compare', '/alternatives/', '/alternatives/'), (f'vs {a["name"]}', None, path)]
     data = [{'@context': 'https://schema.org', '@type': 'WebPage', 'name': title, 'url': SITE + path,
-             'description': a['desc'], 'inLanguage': 'en', 'dateModified': LASTMOD,
+             'description': a['desc'], 'inLanguage': 'en', 'dateModified': lastmod(path),
              'about': [{'@type': 'SoftwareApplication', 'name': 'NavQL', 'url': SITE + '/'},
                        {'@type': 'SoftwareApplication', 'name': a['name'], 'url': a['site']}]},
             crumbs_ld(trail), faq_ld(a['faq'])]
@@ -943,7 +994,7 @@ def alt_page(a):
   <section class="block" id="compare" aria-labelledby="compare-title">
     <div class="wrap">
       <div class="section-head"><p class="label">Side by side</p><h2 id="compare-title">How they compare.</h2>
-        <p>Facts about {esc(a["name"])} come from <a class="inline" href="{a["site"]}" rel="noopener">its website</a>, read on {CHECKED}. “Not listed” means we did not find it there, not that it can never exist; products change, so check their site before you decide.</p></div>
+        <p>Facts about {esc(a["name"])} come from <a class="inline" href="{a["site"]}" rel="noopener">its website</a>, read on {a.get("checked", CHECKED)}. “Not listed” means we did not find it there, not that it can never exist; products change, so check their site before you decide.</p></div>
       <div class="table-scroll" role="region" aria-label="NavQL and {esc(a["name"])} compared" tabindex="0">
         <table class="compare">
           <thead><tr><th scope="col">Feature</th><th scope="col">NavQL</th><th scope="col">{esc(a["name"])}</th></tr></thead>
@@ -969,13 +1020,7 @@ def alt_page(a):
     </div>
   </section>
 
-  <section class="block" aria-labelledby="only-title">
-    <div class="wrap">
-      <div class="section-head"><p class="label">Only in NavQL</p><h2 id="only-title">What NavQL brings to the table.</h2></div>
-      <div class="cards">{''.join(f'<article class="card"><div class="bar"></div><h3>{t}</h3><p>{b}</p></article>' for t, b in NAVQL_EDGE)}</div>
-    </div>
-  </section>
-
+{depth_section(a) if a.get("depth") else edge_section()}
 {faq_block(a["faq"] + COMMON_ALT_FAQ)}  <section class="block" aria-labelledby="more-title">
     <div class="wrap">
       <div class="section-head"><p class="label">More comparisons</p><h2 id="more-title">NavQL and other clients.</h2></div>
@@ -987,6 +1032,33 @@ def alt_page(a):
 
 '''
     return out + tail()
+
+
+def edge_section():
+    return f'''  <section class="block" aria-labelledby="only-title">
+    <div class="wrap">
+      <div class="section-head"><p class="label">Only in NavQL</p><h2 id="only-title">What NavQL brings to the table.</h2></div>
+      <div class="cards">{''.join(f'<article class="card"><div class="bar"></div><h3>{t}</h3><p>{b}</p></article>' for t, b in NAVQL_EDGE)}</div>
+    </div>
+  </section>
+'''
+
+
+def depth_cards():
+    return ''.join(f'<article class="card depth"><p class="tag"><code>{esc(tag)}</code></p><h3>{t}</h3><p>{b}</p></article>'
+                   for tag, t, b in DEPTH)
+
+
+def depth_section(a):
+    return f'''  <section class="block" id="depth" aria-labelledby="depth-title">
+    <div class="wrap">
+      <div class="section-head"><p class="label">Where NavQL goes deeper</p><h2 id="depth-title">Built for the work after SELECT.</h2>
+        <p>{esc(a["name"])} is strong at dashboards, workflows and AI. NavQL is strong at managing the database itself: what the
+        server is doing, what to stop, what to fix and how to keep a copy. All of this works in NavQL today.</p></div>
+      <div class="cards">{depth_cards()}</div>
+    </div>
+  </section>
+'''
 
 
 NAVQL_EDGE = [
@@ -1073,12 +1145,14 @@ def update_index():
     p = ROOT / 'index.html'
     s = p.read_text()
     s = re.sub(r'<footer[\s\S]*?</footer>\n', lambda _: footer_html(), s, count=1)
+    s = re.sub(r'(<!-- depth -->)[\s\S]*?(<!-- /depth -->)',
+               lambda m: m.group(1) + depth_cards().replace('card depth', 'depth-card') + m.group(2), s, count=1)
     p.write_text(s)
 
 
 def sitemap():
     urls = ['/'] + [f'/{d["slug"]}/' for d in DATABASES] + ['/alternatives/'] + [f'/alternatives/{a["slug"]}/' for a in ALTS]
-    lines = [f'  <url><loc>{SITE}{u}</loc><lastmod>{LASTMOD}</lastmod></url>' for u in urls]
+    lines = [f'  <url><loc>{SITE}{u}</loc><lastmod>{lastmod(u)}</lastmod></url>' for u in urls]
     lines += [f'  <url><loc>{SITE}/privacy.html</loc><lastmod>2026-11-14</lastmod></url>',
               f'  <url><loc>{SITE}/terms.html</loc><lastmod>2026-11-14</lastmod></url>']
     write('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
