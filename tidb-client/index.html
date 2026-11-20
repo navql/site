@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TiDB client for Mac, Windows and Linux — NavQL</title>
+<meta name="description" content="Free TiDB client for Mac, Windows and Linux: top queries from statements_summary with rows examined, safe read-only mode and TiDB settings.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="canonical" href="https://navql.com/tidb-client/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://navql.com/tidb-client/">
+<meta property="og:site_name" content="NavQL">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="TiDB client for Mac, Windows and Linux — NavQL">
+<meta property="og:description" content="Free TiDB client for Mac, Windows and Linux: top queries from statements_summary with rows examined, safe read-only mode and TiDB settings.">
+<meta property="og:image" content="https://navql.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Structure of the orders table: columns, types, indexes and foreign keys">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="TiDB client for Mac, Windows and Linux — NavQL">
+<meta name="twitter:description" content="Free TiDB client for Mac, Windows and Linux: top queries from statements_summary with rows examined, safe read-only mode and TiDB settings.">
+<meta name="twitter:image" content="https://navql.com/assets/og.png">
+<script type="application/ld+json">[{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "NavQL", "url": "https://navql.com/", "description": "Free TiDB client for Mac, Windows and Linux: top queries from statements_summary with rows examined, safe read-only mode and TiDB settings.", "applicationCategory": "DeveloperApplication", "applicationSubCategory": "Database client", "operatingSystem": "macOS, Windows, Linux", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "downloadUrl": "https://navql.com/#download", "image": "https://navql.com/assets/og.png", "featureList": ["Top queries from statements_summary", "Read only without READ ONLY", "Detected, with its settings", "Edit rows, then commit once", "Related rows, as a tree", "Visual query builder"], "mainEntityOfPage": "https://navql.com/tidb-client/"}, {"@context": "https://schema.org", "@type": "WebPage", "name": "TiDB client for Mac, Windows and Linux — NavQL", "url": "https://navql.com/tidb-client/", "description": "Free TiDB client for Mac, Windows and Linux: top queries from statements_summary with rows examined, safe read-only mode and TiDB settings.", "inLanguage": "en", "dateModified": "2026-11-19", "about": {"@type": "SoftwareApplication", "name": "TiDB"}}, {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "NavQL", "item": "https://navql.com/"}, {"@type": "ListItem", "position": 2, "name": "TiDB client", "item": "https://navql.com/tidb-client/"}]}, {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Does NavQL work with TiDB Cloud Serverless?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Paste the connection string; NavQL recognizes *.tidbcloud.com and connects with SSL."}}, {"@type": "Question", "name": "Why are TiDB backups not available?", "acceptedAnswer": {"@type": "Answer", "text": "NavQL's backups use mysqldump, which is not the recommended tool for TiDB. Use BR or Dumpling."}}]}]</script>
+<meta name="theme-color" content="#0A0A0B">
+<meta name="color-scheme" content="dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/pages.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="NavQL home"><img src="/assets/navql-logo-fundo-escuro.svg" alt="NavQL" width="92" height="28"></a>
+    <nav aria-label="Main">
+      <a href="/#databases" class="hide-sm">Databases</a>
+      <a href="/alternatives/">Compare</a>
+      <a href="/#download" class="btn btn-primary btn-sm">Download</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div>
+        <ol class="crumbs" aria-label="Breadcrumb"><li><a href="/">NavQL</a></li><li aria-current="page">TiDB client</li></ol>
+        <p class="label">NavQL for TiDB</p>
+        <h1 id="hero-title">A TiDB client <span class="hl">with real top queries.</span></h1>
+        <p class="lead">TiDB speaks the MySQL protocol. NavQL uses TiDB's own statement statistics and settings, and keeps read-only connections safe even though TiDB has no READ ONLY transaction.</p>
+        <div class="actions"><a class="btn btn-primary" href="/#download">Download NavQL</a><a class="btn btn-secondary" href="#features">What it does</a></div>
+        <p class="platform-line">Free · macOS (Apple Silicon) · Windows · Linux</p>
+      </div>
+      <div><div class="shot"><img src="/assets/shots/structure-1440.webp" srcset="/assets/shots/structure-1440.webp 1440w, /assets/shots/structure.webp 2880w" sizes="(max-width: 1080px) 100vw, 660px" alt="Structure of the orders table: columns, types, indexes and foreign keys" width="2880" height="1800" fetchpriority="high"></div><p class="shot-caption">A real NavQL screen, shown on PostgreSQL. The same screens work on TiDB.</p></div>
+    </div>
+  </section>
+
+  <div class="facts"><div class="wrap"><ul><li><strong>statements_summary</strong><span>top queries</span></li><li><strong>Rows examined</strong><span>per statement</span></li><li><strong>Read only</strong><span>always rolled back</span></li><li><strong>Free</strong><span>macOS · Windows · Linux</span></li></ul></div></div>
+
+  <section class="block" id="features" aria-labelledby="features-title">
+    <div class="wrap">
+      <div class="section-head"><p class="label">What NavQL does with TiDB</p>
+        <h2 id="features-title">Built for the way you work with TiDB.</h2>
+        <p>Everything below works on TiDB today. TiDB speaks the MySQL protocol, so it uses NavQL's MySQL support, with the differences handled for you.</p></div>
+      <div class="cards"><article class="card"><div class="bar"></div><h3>Top queries from statements_summary</h3><p>Total time, calls, mean, max, rows and <strong>rows examined</strong>, with a warning when a statement reads far more rows than it returns. Open one in the editor as a real execution with its values.</p></article><article class="card"><div class="bar"></div><h3>Read only without READ ONLY</h3><p>TiDB has no <code>READ ONLY</code> transaction, so on a read-only connection NavQL runs each statement in a transaction that is always rolled back.</p></article><article class="card"><div class="bar"></div><h3>Detected, with its settings</h3><p>The status bar shows the real server (<code>TiDB 7.5.1</code>); <code>tidb://</code> and <code>*.tidbcloud.com</code> URLs are recognized; Settings reads <code>VARIABLES_INFO</code>.</p></article><article class="card"><div class="bar"></div><h3>Edit rows, then commit once</h3><p>Change cells, insert, duplicate and delete rows in the grid. Every change stays pending (yellow, green, red) until you press <code>⌘S</code>; <em>Preview</em> shows the SQL first and the whole batch commits in one transaction.</p></article><article class="card"><div class="bar"></div><h3>Related rows, as a tree</h3><p>Open a row and see everything linked to it by foreign keys: the rows it points to and, for each table that points back, how many rows and the first ones. Each row opens its own relationships, as many levels deep as you like.</p></article><article class="card"><div class="bar"></div><h3>Visual query builder</h3><p>Pick a table, add the tables linked to it by foreign keys (or join any table with your own <code>ON</code>), filters, aggregates, <code>HAVING</code> and calculated columns. The SQL is written live, and you can save the builder or open the SQL in an editor tab.</p></article></div>
+    </div>
+  </section>
+
+  <section class="block alt" aria-labelledby="details-title">
+    <div class="wrap split">
+      <div>
+        <h2 id="details-title" class="label">Also included</h2>
+        <h3>The details that save time.</h3>
+        <ul class="checks"><li>Sessions with <code>KILL QUERY</code> and <code>KILL</code></li><li>Structure, DDL and diagram from the foreign keys</li><li>SQL editor with autocomplete and several result tabs</li><li>Export to CSV, JSON or SQL; import CSV</li><li>SSH tunnel and SSL</li></ul>
+      </div>
+      <div>
+        <h2 class="label">Not yet</h2>
+        <h3>What NavQL does not do on TiDB today.</h3>
+        <p class="sub">So you know before you download.</p>
+        <ul class="checks neutral"><li>Backups (use TiDB's BR or Dumpling)</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="faq" aria-labelledby="faq-title">
+    <div class="wrap faq-wrap">
+      <div class="section-head"><p class="label">Questions</p><h2 id="faq-title">Good to know.</h2></div>
+      <div class="faq"><details><summary>Does NavQL work with TiDB Cloud Serverless?</summary><p>Yes. Paste the connection string; NavQL recognizes *.tidbcloud.com and connects with SSL.</p></details><details><summary>Why are TiDB backups not available?</summary><p>NavQL&#x27;s backups use mysqldump, which is not the recommended tool for TiDB. Use BR or Dumpling.</p></details></div>
+    </div>
+  </section>
+  <section class="block" aria-labelledby="more-title">
+    <div class="wrap">
+      <div class="section-head"><p class="label">One app</p><h2 id="more-title">Every database you use, side by side.</h2>
+      <p>NavQL keeps all your connections in one place, each with its own color and tag. <a class="inline" href="/alternatives/">See how NavQL compares</a> with other clients.</p></div>
+      <ul class="links"><li><a href="/postgresql-client/"><strong>PostgreSQL</strong><span>Database</span></a></li><li><a href="/mysql-client/"><strong>MySQL</strong><span>Database</span></a></li><li><a href="/mariadb-client/"><strong>MariaDB</strong><span>Database</span></a></li><li><a href="/sql-server-client/"><strong>SQL Server</strong><span>Database</span></a></li><li><a href="/mongodb-client/"><strong>MongoDB</strong><span>Database</span></a></li><li><a href="/redis-client/"><strong>Redis</strong><span>Database</span></a></li><li><a href="/sqlite-client/"><strong>SQLite</strong><span>Database</span></a></li><li><a href="/supabase-client/"><strong>Supabase</strong><span>PostgreSQL protocol</span></a></li><li><a href="/neon-client/"><strong>Neon</strong><span>PostgreSQL protocol</span></a></li><li><a href="/cockroachdb-client/"><strong>CockroachDB</strong><span>PostgreSQL protocol</span></a></li><li><a href="/timescaledb-client/"><strong>TimescaleDB</strong><span>PostgreSQL protocol</span></a></li><li><a href="/valkey-client/"><strong>Valkey</strong><span>Redis protocol</span></a></li><li><a href="/dragonfly-client/"><strong>Dragonfly</strong><span>Redis protocol</span></a></li></ul>
+    </div>
+  </section>
+  <section class="block cta" aria-labelledby="cta-title">
+    <div class="wrap">
+      <img class="icon" src="/assets/navql-icone.svg" alt="" width="64" height="64">
+      <h2 id="cta-title">Open your TiDB databases in NavQL.</h2>
+      <p class="sub">Free for macOS (Apple Silicon), Windows and Linux. Installers and terminal commands are on the download page.</p>
+      <div class="actions"><a class="btn btn-primary" href="/#download">Download NavQL</a><a class="btn btn-secondary" href="/#demo">Watch the demo</a></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <a class="brand" href="/" aria-label="NavQL home"><img src="/assets/navql-logo-fundo-escuro.svg" alt="NavQL" width="79" height="24"></a>
+        <p>Free database client for macOS, Windows and Linux.</p>
+      </div>
+      <div><h2>Databases</h2><ul><li><a href="/postgresql-client/">PostgreSQL</a></li><li><a href="/mysql-client/">MySQL</a></li><li><a href="/mariadb-client/">MariaDB</a></li><li><a href="/sql-server-client/">SQL Server</a></li><li><a href="/mongodb-client/">MongoDB</a></li><li><a href="/redis-client/">Redis</a></li><li><a href="/sqlite-client/">SQLite</a></li></ul></div>
+      <div><h2>Compatible servers</h2><ul><li><a href="/supabase-client/">Supabase</a></li><li><a href="/neon-client/">Neon</a></li><li><a href="/cockroachdb-client/">CockroachDB</a></li><li><a href="/timescaledb-client/">TimescaleDB</a></li><li><a href="/tidb-client/">TiDB</a></li><li><a href="/valkey-client/">Valkey</a></li><li><a href="/dragonfly-client/">Dragonfly</a></li></ul></div>
+      <div><h2>Compare</h2><ul><li><a href="/alternatives/tableplus/">vs TablePlus</a></li><li><a href="/alternatives/dbeaver/">vs DBeaver</a></li><li><a href="/alternatives/datagrip/">vs DataGrip</a></li><li><a href="/alternatives/beekeeper-studio/">vs Beekeeper Studio</a></li><li><a href="/alternatives/pgadmin/">vs pgAdmin</a></li><li><a href="/alternatives/navicat/">vs Navicat</a></li><li><a href="/alternatives/db-pro/">vs DB Pro</a></li><li><a href="/alternatives/">All comparisons</a></li></ul></div>
+      <div><h2>NavQL</h2><ul><li><a href="/#download">Download</a></li><li><a href="/#faq">FAQ</a></li><li><a href="https://github.com/navql/releases/releases">Releases</a></li><li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/llms.txt">llms.txt</a></li></ul></div>
+    </div>
+    <p class="footer-bottom">© 2026 NavQL</p>
+  </div>
+</footer>
+</body>
+</html>

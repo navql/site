@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Redis GUI client for Mac, Windows and Linux — NavQL</title>
+<meta name="description" content="Free Redis GUI for Mac, Windows and Linux: keys grouped by prefix with type, TTL and size, editable values, memory, clients and the slow log.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="canonical" href="https://navql.com/redis-client/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://navql.com/redis-client/">
+<meta property="og:site_name" content="NavQL">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Redis GUI client for Mac, Windows and Linux — NavQL">
+<meta property="og:description" content="Free Redis GUI for Mac, Windows and Linux: keys grouped by prefix with type, TTL and size, editable values, memory, clients and the slow log.">
+<meta property="og:image" content="https://navql.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Redis keys with the session prefix in a grid: key, type, TTL, size and value">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Redis GUI client for Mac, Windows and Linux — NavQL">
+<meta name="twitter:description" content="Free Redis GUI for Mac, Windows and Linux: keys grouped by prefix with type, TTL and size, editable values, memory, clients and the slow log.">
+<meta name="twitter:image" content="https://navql.com/assets/og.png">
+<script type="application/ld+json">[{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "NavQL", "url": "https://navql.com/", "description": "Free Redis GUI for Mac, Windows and Linux: keys grouped by prefix with type, TTL and size, editable values, memory, clients and the slow log.", "applicationCategory": "DeveloperApplication", "applicationSubCategory": "Database client", "operatingSystem": "macOS, Windows, Linux", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "downloadUrl": "https://navql.com/#download", "image": "https://navql.com/assets/og.png", "featureList": ["Keys grouped by prefix", "Edit values of any type", "Memory, hit rate, evictions", "Clients", "Slow log", "Commands, with a safety net"], "mainEntityOfPage": "https://navql.com/redis-client/"}, {"@context": "https://schema.org", "@type": "WebPage", "name": "Redis GUI client for Mac, Windows and Linux — NavQL", "url": "https://navql.com/redis-client/", "description": "Free Redis GUI for Mac, Windows and Linux: keys grouped by prefix with type, TTL and size, editable values, memory, clients and the slow log.", "inLanguage": "en", "dateModified": "2026-11-19", "about": {"@type": "SoftwareApplication", "name": "Redis"}}, {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "NavQL", "item": "https://navql.com/"}, {"@type": "ListItem", "position": 2, "name": "Redis client", "item": "https://navql.com/redis-client/"}]}, {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is NavQL a free alternative to RedisInsight?", "acceptedAnswer": {"@type": "Answer", "text": "NavQL is free and covers keys, values, memory, clients and the slow log. RedisInsight has more Redis-specific tools, such as module support; NavQL puts Redis in the same app as your SQL databases and MongoDB."}}, {"@type": "Question", "name": "Does NavQL work with Valkey and Dragonfly?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Both use the Redis protocol. Dragonfly has no CLIENT UNBLOCK, so that button is not offered there."}}, {"@type": "Question", "name": "Does NavQL use KEYS on my server?", "acceptedAnswer": {"@type": "Answer", "text": "Groups are read with SCAN in batches, so browsing does not block the server the way KEYS * can."}}]}]</script>
+<meta name="theme-color" content="#0A0A0B">
+<meta name="color-scheme" content="dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/pages.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="NavQL home"><img src="/assets/navql-logo-fundo-escuro.svg" alt="NavQL" width="92" height="28"></a>
+    <nav aria-label="Main">
+      <a href="/#databases" class="hide-sm">Databases</a>
+      <a href="/alternatives/">Compare</a>
+      <a href="/#download" class="btn btn-primary btn-sm">Download</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div>
+        <ol class="crumbs" aria-label="Breadcrumb"><li><a href="/">NavQL</a></li><li aria-current="page">Redis client</li></ol>
+        <p class="label">NavQL for Redis</p>
+        <h1 id="hero-title">A Redis GUI <span class="hl">that groups your keys.</span></h1>
+        <p class="lead">See keys grouped by prefix with their type, TTL, size and value, edit them, and watch memory, clients and the slow log, next to your SQL connections.</p>
+        <div class="actions"><a class="btn btn-primary" href="/#download">Download NavQL</a><a class="btn btn-secondary" href="#features">What it does</a></div>
+        <p class="platform-line">Free · macOS (Apple Silicon) · Windows · Linux</p>
+      </div>
+      <div><div class="shot"><img src="/assets/shots/redis-1440.webp" srcset="/assets/shots/redis-1440.webp 1440w, /assets/shots/redis.webp 2880w" sizes="(max-width: 1080px) 100vw, 660px" alt="Redis keys with the session prefix in a grid: key, type, TTL, size and value" width="2880" height="1800" fetchpriority="high"></div><p class="shot-caption">A real NavQL screen, shown on Redis.</p></div>
+    </div>
+  </section>
+
+  <div class="facts"><div class="wrap"><ul><li><strong>Keys by prefix</strong><span>user:*, session:*</span></li><li><strong>Slow log</strong><span>grouped by command</span></li><li><strong>Valkey, Dragonfly</strong><span>same features</span></li><li><strong>Free</strong><span>macOS · Windows · Linux</span></li></ul></div></div>
+
+  <section class="block" id="features" aria-labelledby="features-title">
+    <div class="wrap">
+      <div class="section-head"><p class="label">What NavQL does with Redis</p>
+        <h2 id="features-title">Built for the way you work with Redis.</h2>
+        <p>Everything below works on Redis today.</p></div>
+      <div class="cards"><article class="card"><div class="bar"></div><h3>Keys grouped by prefix</h3><p>The sidebar groups keys by their first prefix (<code>user:*</code>, <code>session:*</code>). A group opens as a grid with a row per key: key, type, TTL, size and value.</p></article><article class="card"><div class="bar"></div><h3>Edit values of any type</h3><p>Strings as text; hashes, lists, sets and sorted sets as JSON. Filter the grid by key pattern and by type.</p></article><article class="card"><div class="bar"></div><h3>Memory, hit rate, evictions</h3><p>From <code>INFO</code>: used memory and limit, keys, hit rate, evicted keys and commands per second, with a warning when the last RDB/AOF save failed or memory passes 90% of <code>maxmemory</code>.</p></article><article class="card"><div class="bar"></div><h3>Clients</h3><p><code>CLIENT LIST</code> with the last command of each client, <strong>Unblock</strong> for clients stuck on <code>BLPOP</code> or <code>XREAD BLOCK</code>, and <strong>Kill</strong>.</p></article><article class="card"><div class="bar"></div><h3>Slow log</h3><p><code>SLOWLOG</code> grouped by command, so the expensive patterns stand out, with a reset button.</p></article><article class="card"><div class="bar"></div><h3>Commands, with a safety net</h3><p>Run Redis commands in the editor. On a read-only connection only reading commands are accepted (<code>GET</code>, <code>HGETALL</code>, <code>SCAN</code>, <code>ZRANGE</code>…).</p></article></div>
+    </div>
+  </section>
+
+  <section class="block alt" aria-labelledby="details-title">
+    <div class="wrap split">
+      <div>
+        <h2 id="details-title" class="label">Also included</h2>
+        <h3>The details that save time.</h3>
+        <ul class="checks"><li><strong>Settings</strong> from <code>CONFIG GET *</code>, with defaults NavQL knows; suggested changes come as <code>CONFIG SET</code></li><li>Quick <code>SCAN 0 MATCH … COUNT 100</code> for any group from the sidebar</li><li>SSH tunnel and TLS</li><li>Works with Valkey and Dragonfly, which appear in the form with their own name and icon</li><li>Connection colors and tags keep the production cache apart from local</li></ul>
+      </div>
+      <div>
+        <h2 class="label">Not yet</h2>
+        <h3>What NavQL does not do on Redis today.</h3>
+        <p class="sub">So you know before you download.</p>
+        <ul class="checks neutral"><li>Backups (Redis has its own RDB and AOF persistence)</li><li>Pub/Sub and stream consumer views</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="faq" aria-labelledby="faq-title">
+    <div class="wrap faq-wrap">
+      <div class="section-head"><p class="label">Questions</p><h2 id="faq-title">Good to know.</h2></div>
+      <div class="faq"><details><summary>Is NavQL a free alternative to RedisInsight?</summary><p>NavQL is free and covers keys, values, memory, clients and the slow log. RedisInsight has more Redis-specific tools, such as module support; NavQL puts Redis in the same app as your SQL databases and MongoDB.</p></details><details><summary>Does NavQL work with Valkey and Dragonfly?</summary><p>Yes. Both use the Redis protocol. Dragonfly has no CLIENT UNBLOCK, so that button is not offered there.</p></details><details><summary>Does NavQL use KEYS on my server?</summary><p>Groups are read with SCAN in batches, so browsing does not block the server the way KEYS * can.</p></details></div>
+    </div>
+  </section>
+  <section class="block" aria-labelledby="more-title">
+    <div class="wrap">
+      <div class="section-head"><p class="label">One app</p><h2 id="more-title">Every database you use, side by side.</h2>
+      <p>NavQL keeps all your connections in one place, each with its own color and tag. <a class="inline" href="/alternatives/">See how NavQL compares</a> with other clients.</p></div>
+      <ul class="links"><li><a href="/postgresql-client/"><strong>PostgreSQL</strong><span>Database</span></a></li><li><a href="/mysql-client/"><strong>MySQL</strong><span>Database</span></a></li><li><a href="/mariadb-client/"><strong>MariaDB</strong><span>Database</span></a></li><li><a href="/sql-server-client/"><strong>SQL Server</strong><span>Database</span></a></li><li><a href="/mongodb-client/"><strong>MongoDB</strong><span>Database</span></a></li><li><a href="/sqlite-client/"><strong>SQLite</strong><span>Database</span></a></li><li><a href="/supabase-client/"><strong>Supabase</strong><span>PostgreSQL protocol</span></a></li><li><a href="/neon-client/"><strong>Neon</strong><span>PostgreSQL protocol</span></a></li><li><a href="/cockroachdb-client/"><strong>CockroachDB</strong><span>PostgreSQL protocol</span></a></li><li><a href="/timescaledb-client/"><strong>TimescaleDB</strong><span>PostgreSQL protocol</span></a></li><li><a href="/tidb-client/"><strong>TiDB</strong><span>MySQL protocol</span></a></li><li><a href="/valkey-client/"><strong>Valkey</strong><span>Redis protocol</span></a></li><li><a href="/dragonfly-client/"><strong>Dragonfly</strong><span>Redis protocol</span></a></li></ul>
+    </div>
+  </section>
+  <section class="block cta" aria-labelledby="cta-title">
+    <div class="wrap">
+      <img class="icon" src="/assets/navql-icone.svg" alt="" width="64" height="64">
+      <h2 id="cta-title">Open your Redis databases in NavQL.</h2>
+      <p class="sub">Free for macOS (Apple Silicon), Windows and Linux. Installers and terminal commands are on the download page.</p>
+      <div class="actions"><a class="btn btn-primary" href="/#download">Download NavQL</a><a class="btn btn-secondary" href="/#demo">Watch the demo</a></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <a class="brand" href="/" aria-label="NavQL home"><img src="/assets/navql-logo-fundo-escuro.svg" alt="NavQL" width="79" height="24"></a>
+        <p>Free database client for macOS, Windows and Linux.</p>
+      </div>
+      <div><h2>Databases</h2><ul><li><a href="/postgresql-client/">PostgreSQL</a></li><li><a href="/mysql-client/">MySQL</a></li><li><a href="/mariadb-client/">MariaDB</a></li><li><a href="/sql-server-client/">SQL Server</a></li><li><a href="/mongodb-client/">MongoDB</a></li><li><a href="/redis-client/">Redis</a></li><li><a href="/sqlite-client/">SQLite</a></li></ul></div>
+      <div><h2>Compatible servers</h2><ul><li><a href="/supabase-client/">Supabase</a></li><li><a href="/neon-client/">Neon</a></li><li><a href="/cockroachdb-client/">CockroachDB</a></li><li><a href="/timescaledb-client/">TimescaleDB</a></li><li><a href="/tidb-client/">TiDB</a></li><li><a href="/valkey-client/">Valkey</a></li><li><a href="/dragonfly-client/">Dragonfly</a></li></ul></div>
+      <div><h2>Compare</h2><ul><li><a href="/alternatives/tableplus/">vs TablePlus</a></li><li><a href="/alternatives/dbeaver/">vs DBeaver</a></li><li><a href="/alternatives/datagrip/">vs DataGrip</a></li><li><a href="/alternatives/beekeeper-studio/">vs Beekeeper Studio</a></li><li><a href="/alternatives/pgadmin/">vs pgAdmin</a></li><li><a href="/alternatives/navicat/">vs Navicat</a></li><li><a href="/alternatives/db-pro/">vs DB Pro</a></li><li><a href="/alternatives/">All comparisons</a></li></ul></div>
+      <div><h2>NavQL</h2><ul><li><a href="/#download">Download</a></li><li><a href="/#faq">FAQ</a></li><li><a href="https://github.com/navql/releases/releases">Releases</a></li><li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/llms.txt">llms.txt</a></li></ul></div>
+    </div>
+    <p class="footer-bottom">© 2026 NavQL</p>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CockroachDB client for Mac, Windows and Linux — NavQL</title>
+<meta name="description" content="Free CockroachDB client for Mac, Windows and Linux: detects the cluster version, cancels with CANCEL QUERIES and lists cluster settings.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="canonical" href="https://navql.com/cockroachdb-client/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://navql.com/cockroachdb-client/">
+<meta property="og:site_name" content="NavQL">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="CockroachDB client for Mac, Windows and Linux — NavQL">
+<meta property="og:description" content="Free CockroachDB client for Mac, Windows and Linux: detects the cluster version, cancels with CANCEL QUERIES and lists cluster settings.">
+<meta property="og:image" content="https://navql.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The orders table selected in the diagram, with its related tables highlighted and the rest faded">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CockroachDB client for Mac, Windows and Linux — NavQL">
+<meta name="twitter:description" content="Free CockroachDB client for Mac, Windows and Linux: detects the cluster version, cancels with CANCEL QUERIES and lists cluster settings.">
+<meta name="twitter:image" content="https://navql.com/assets/og.png">
+<script type="application/ld+json">[{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "NavQL", "url": "https://navql.com/", "description": "Free CockroachDB client for Mac, Windows and Linux: detects the cluster version, cancels with CANCEL QUERIES and lists cluster settings.", "applicationCategory": "DeveloperApplication", "applicationSubCategory": "Database client", "operatingSystem": "macOS, Windows, Linux", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "downloadUrl": "https://navql.com/#download", "image": "https://navql.com/assets/og.png", "featureList": ["Detected, not assumed", "Cancel the CockroachDB way", "Cluster settings", "Clean autocomplete", "Edit rows, then commit once", "Related rows, as a tree"], "mainEntityOfPage": "https://navql.com/cockroachdb-client/"}, {"@context": "https://schema.org", "@type": "WebPage", "name": "CockroachDB client for Mac, Windows and Linux — NavQL", "url": "https://navql.com/cockroachdb-client/", "description": "Free CockroachDB client for Mac, Windows and Linux: detects the cluster version, cancels with CANCEL QUERIES and lists cluster settings.", "inLanguage": "en", "dateModified": "2026-11-19", "about": {"@type": "SoftwareApplication", "name": "CockroachDB"}}, {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "NavQL", "item": "https://navql.com/"}, {"@type": "ListItem", "position": 2, "name": "CockroachDB client", "item": "https://navql.com/cockroachdb-client/"}]}, {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Does NavQL support CockroachDB Cloud?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Paste the connection string; NavQL recognizes *.cockroachlabs.cloud and uses SSL."}}, {"@type": "Question", "name": "Why does NavQL not back up CockroachDB?", "acceptedAnswer": {"@type": "Answer", "text": "Its backups use pg_dump, which CockroachDB does not support. CockroachDB has its own BACKUP statement."}}, {"@type": "Question", "name": "Which PostgreSQL features work on CockroachDB?", "acceptedAnswer": {"@type": "Answer", "text": "The grid, editor, structure, diagram, related rows, query builder, sessions and settings all work. Where CockroachDB differs, such as cancelling queries, NavQL uses its own commands."}}]}]</script>
+<meta name="theme-color" content="#0A0A0B">
+<meta name="color-scheme" content="dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/pages.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="NavQL home"><img src="/assets/navql-logo-fundo-escuro.svg" alt="NavQL" width="92" height="28"></a>
+    <nav aria-label="Main">
+      <a href="/#databases" class="hide-sm">Databases</a>
+      <a href="/alternatives/">Compare</a>
+      <a href="/#download" class="btn btn-primary btn-sm">Download</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div>
+        <ol class="crumbs" aria-label="Breadcrumb"><li><a href="/">NavQL</a></li><li aria-current="page">CockroachDB client</li></ol>
+        <p class="label">NavQL for CockroachDB</p>
+        <h1 id="hero-title">A CockroachDB client <span class="hl">that knows it is not Postgres.</span></h1>
+        <p class="lead">CockroachDB speaks the PostgreSQL protocol, but not everything works the same. NavQL handles the differences so the grid, editor, activity and settings just work.</p>
+        <div class="actions"><a class="btn btn-primary" href="/#download">Download NavQL</a><a class="btn btn-secondary" href="#features">What it does</a></div>
+        <p class="platform-line">Free · macOS (Apple Silicon) · Windows · Linux</p>
+      </div>
+      <div><div class="shot"><img src="/assets/shots/diagram-focus-1440.webp" srcset="/assets/shots/diagram-focus-1440.webp 1440w, /assets/shots/diagram-focus.webp 2880w" sizes="(max-width: 1080px) 100vw, 660px" alt="The orders table selected in the diagram, with its related tables highlighted and the rest faded" width="2880" height="1800" fetchpriority="high"></div><p class="shot-caption">A real NavQL screen, shown on PostgreSQL. The same screens work on CockroachDB.</p></div>
+    </div>
+  </section>
+
+  <div class="facts"><div class="wrap"><ul><li><strong>CockroachDB 26.4</strong><span>shown in the status bar</span></li><li><strong>CANCEL QUERIES</strong><span>instead of pg_cancel_backend</span></li><li><strong>Cluster settings</strong><span>SHOW CLUSTER SETTINGS</span></li><li><strong>Free</strong><span>macOS · Windows · Linux</span></li></ul></div></div>
+
+  <section class="block" id="features" aria-labelledby="features-title">
+    <div class="wrap">
+      <div class="section-head"><p class="label">What NavQL does with CockroachDB</p>
+        <h2 id="features-title">Built for the way you work with CockroachDB.</h2>
+        <p>Everything below works on CockroachDB today. CockroachDB speaks the PostgreSQL protocol, so it uses NavQL's PostgreSQL support, with the differences handled for you.</p></div>
+      <div class="cards"><article class="card"><div class="bar"></div><h3>Detected, not assumed</h3><p>The status bar shows the real server, such as <code>CockroachDB 26.4.0</code>. URLs with <code>cockroachdb://</code> or a <code>*.cockroachlabs.cloud</code> host are recognized on import.</p></article><article class="card"><div class="bar"></div><h3>Cancel the CockroachDB way</h3><p>There is no <code>pg_cancel_backend</code> on CockroachDB, so NavQL cancels with <code>CANCEL QUERIES</code>, from the editor and from the Activity tab.</p></article><article class="card"><div class="bar"></div><h3>Cluster settings</h3><p>The Settings view reads <code>SHOW CLUSTER SETTINGS</code>, separating changed and important ones from all.</p></article><article class="card"><div class="bar"></div><h3>Clean autocomplete</h3><p>Internal schemas such as <code>crdb_internal</code> stay out of autocomplete, so suggestions are your tables.</p></article><article class="card"><div class="bar"></div><h3>Edit rows, then commit once</h3><p>Change cells, insert, duplicate and delete rows in the grid. Every change stays pending (yellow, green, red) until you press <code>⌘S</code>; <em>Preview</em> shows the SQL first and the whole batch commits in one transaction.</p></article><article class="card"><div class="bar"></div><h3>Related rows, as a tree</h3><p>Open a row and see everything linked to it by foreign keys: the rows it points to and, for each table that points back, how many rows and the first ones. Each row opens its own relationships, as many levels deep as you like.</p></article></div>
+    </div>
+  </section>
+
+  <section class="block alt" aria-labelledby="details-title">
+    <div class="wrap split">
+      <div>
+        <h2 id="details-title" class="label">Also included</h2>
+        <h3>The details that save time.</h3>
+        <ul class="checks"><li>Structure, DDL and database diagram from the foreign keys</li><li>Visual query builder with foreign-key joins and aggregates</li><li>Read-only connections accept only reading statements</li><li>SSH tunnel and SSL, with colors and tags per connection</li><li>Export to CSV, JSON or SQL</li></ul>
+      </div>
+      <div>
+        <h2 class="label">Not yet</h2>
+        <h3>What NavQL does not do on CockroachDB today.</h3>
+        <p class="sub">So you know before you download.</p>
+        <ul class="checks neutral"><li>Backups (pg_dump does not support CockroachDB; use CockroachDB's BACKUP)</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="faq" aria-labelledby="faq-title">
+    <div class="wrap faq-wrap">
+      <div class="section-head"><p class="label">Questions</p><h2 id="faq-title">Good to know.</h2></div>
+      <div class="faq"><details><summary>Does NavQL support CockroachDB Cloud?</summary><p>Yes. Paste the connection string; NavQL recognizes *.cockroachlabs.cloud and uses SSL.</p></details><details><summary>Why does NavQL not back up CockroachDB?</summary><p>Its backups use pg_dump, which CockroachDB does not support. CockroachDB has its own BACKUP statement.</p></details><details><summary>Which PostgreSQL features work on CockroachDB?</summary><p>The grid, editor, structure, diagram, related rows, query builder, sessions and settings all work. Where CockroachDB differs, such as cancelling queries, NavQL uses its own commands.</p></details></div>
+    </div>
+  </section>
+  <section class="block" aria-labelledby="more-title">
+    <div class="wrap">
+      <div class="section-head"><p class="label">One app</p><h2 id="more-title">Every database you use, side by side.</h2>
+      <p>NavQL keeps all your connections in one place, each with its own color and tag. <a class="inline" href="/alternatives/">See how NavQL compares</a> with other clients.</p></div>
+      <ul class="links"><li><a href="/postgresql-client/"><strong>PostgreSQL</strong><span>Database</span></a></li><li><a href="/mysql-client/"><strong>MySQL</strong><span>Database</span></a></li><li><a href="/mariadb-client/"><strong>MariaDB</strong><span>Database</span></a></li><li><a href="/sql-server-client/"><strong>SQL Server</strong><span>Database</span></a></li><li><a href="/mongodb-client/"><strong>MongoDB</strong><span>Database</span></a></li><li><a href="/redis-client/"><strong>Redis</strong><span>Database</span></a></li><li><a href="/sqlite-client/"><strong>SQLite</strong><span>Database</span></a></li><li><a href="/supabase-client/"><strong>Supabase</strong><span>PostgreSQL protocol</span></a></li><li><a href="/neon-client/"><strong>Neon</strong><span>PostgreSQL protocol</span></a></li><li><a href="/timescaledb-client/"><strong>TimescaleDB</strong><span>PostgreSQL protocol</span></a></li><li><a href="/tidb-client/"><strong>TiDB</strong><span>MySQL protocol</span></a></li><li><a href="/valkey-client/"><strong>Valkey</strong><span>Redis protocol</span></a></li><li><a href="/dragonfly-client/"><strong>Dragonfly</strong><span>Redis protocol</span></a></li></ul>
+    </div>
+  </section>
+  <section class="block cta" aria-labelledby="cta-title">
+    <div class="wrap">
+      <img class="icon" src="/assets/navql-icone.svg" alt="" width="64" height="64">
+      <h2 id="cta-title">Open your CockroachDB databases in NavQL.</h2>
+      <p class="sub">Free for macOS (Apple Silicon), Windows and Linux. Installers and terminal commands are on the download page.</p>
+      <div class="actions"><a class="btn btn-primary" href="/#download">Download NavQL</a><a class="btn btn-secondary" href="/#demo">Watch the demo</a></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <a class="brand" href="/" aria-label="NavQL home"><img src="/assets/navql-logo-fundo-escuro.svg" alt="NavQL" width="79" height="24"></a>
+        <p>Free database client for macOS, Windows and Linux.</p>
+      </div>
+      <div><h2>Databases</h2><ul><li><a href="/postgresql-client/">PostgreSQL</a></li><li><a href="/mysql-client/">MySQL</a></li><li><a href="/mariadb-client/">MariaDB</a></li><li><a href="/sql-server-client/">SQL Server</a></li><li><a href="/mongodb-client/">MongoDB</a></li><li><a href="/redis-client/">Redis</a></li><li><a href="/sqlite-client/">SQLite</a></li></ul></div>
+      <div><h2>Compatible servers</h2><ul><li><a href="/supabase-client/">Supabase</a></li><li><a href="/neon-client/">Neon</a></li><li><a href="/cockroachdb-client/">CockroachDB</a></li><li><a href="/timescaledb-client/">TimescaleDB</a></li><li><a href="/tidb-client/">TiDB</a></li><li><a href="/valkey-client/">Valkey</a></li><li><a href="/dragonfly-client/">Dragonfly</a></li></ul></div>
+      <div><h2>Compare</h2><ul><li><a href="/alternatives/tableplus/">vs TablePlus</a></li><li><a href="/alternatives/dbeaver/">vs DBeaver</a></li><li><a href="/alternatives/datagrip/">vs DataGrip</a></li><li><a href="/alternatives/beekeeper-studio/">vs Beekeeper Studio</a></li><li><a href="/alternatives/pgadmin/">vs pgAdmin</a></li><li><a href="/alternatives/navicat/">vs Navicat</a></li><li><a href="/alternatives/db-pro/">vs DB Pro</a></li><li><a href="/alternatives/">All comparisons</a></li></ul></div>
+      <div><h2>NavQL</h2><ul><li><a href="/#download">Download</a></li><li><a href="/#faq">FAQ</a></li><li><a href="https://github.com/navql/releases/releases">Releases</a></li><li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/llms.txt">llms.txt</a></li></ul></div>
+    </div>
+    <p class="footer-bottom">© 2026 NavQL</p>
+  </div>
+</footer>
+</body>
+</html>

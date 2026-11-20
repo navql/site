@@ -165,9 +165,13 @@
   .dbs .wrap { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px 32px; align-items: center; }
   .dbs h2 { margin: 0; font: 500 13px/1.4 var(--mono); color: var(--muted); }
   .dbs ul { display: flex; flex-wrap: wrap; gap: 8px 26px; margin: 0; padding: 0; list-style: none; font-weight: 600; font-size: 16px; }
+  .dbs li a { display: inline-flex; align-items: center; gap: 8px; }
   .dbs li { display: inline-flex; align-items: center; gap: 8px; }
   .dbs li i { width: 8px; height: 8px; border-radius: 50%; }
   .dbs .compat { grid-column: 2; color: var(--muted); font-size: 14px; }
+  .dbs a:hover { color: var(--signal); }
+  .dbs .compat a { color: var(--fg); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--line-strong); }
+  .dbs .compat a:hover { text-decoration-color: var(--signal); }
 
   /* Sections */
   section.block { padding: 112px 0; }
@@ -261,13 +265,16 @@
   .cli details code { font-size: 12px; overflow-wrap: anywhere; }
   .cli details a { text-decoration: underline; text-underline-offset: 3px; }
 
-  /* Footer */
-  footer { border-top: 1px solid var(--line); padding: 36px 0; }
-  footer .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; }
-  footer .brand img { height: 24px; }
-  footer p { color: var(--muted); font-size: 13px; }
-  footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 13px; color: var(--muted); }
-  footer nav a:hover { color: var(--fg); }
+  /* Footer (same markup as the database and comparison pages, written by tools/pages.py) */
+  .site-footer { border-top: 1px solid var(--line); padding: 56px 0 36px; }
+  .footer-top { display: grid; grid-template-columns: minmax(0, 3fr) repeat(4, minmax(0, 2fr)); gap: 32px; }
+  .footer-top .brand img { height: 24px; }
+  .footer-top > div > p { margin-top: 12px; color: var(--muted); font-size: 13px; max-width: 30ch; }
+  .footer-top h2 { margin: 0 0 12px; font: 500 12px/1.4 var(--mono); color: var(--fg); letter-spacing: .02em; }
+  .footer-top ul { margin: 0; padding: 0; list-style: none; }
+  .footer-top li { margin: 0 0 7px; font-size: 13px; color: var(--muted); }
+  .footer-top li a:hover { color: var(--fg); }
+  .footer-bottom { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
 
   /* Responsive */
   @media (max-width: 1080px) {
@@ -285,6 +292,8 @@
     .benefits { grid-template-columns: minmax(0, 1fr); }
     .dbs .wrap { grid-template-columns: minmax(0, 1fr); }
     .dbs .compat { grid-column: auto; }
+    .footer-top { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .footer-top > div:first-child { grid-column: 1 / -1; }
   }
   @media (max-width: 720px) {
     .wrap { padding: 0 16px; }
@@ -309,7 +318,6 @@
     .platforms { grid-template-columns: minmax(0, 1fr); }
     .cli-row { grid-template-columns: minmax(0, 1fr) auto; padding: 12px 10px 12px 14px; }
     .cli-row code { grid-column: 1 / -1; grid-row: 2; }
-    footer .wrap { flex-direction: column; align-items: flex-start; }
   }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -332,6 +340,7 @@
       <a href="#demo">Demo</a>
       <a href="#features">Features</a>
       <a href="#faq">FAQ</a>
+      <a href="/alternatives/">Compare</a>
       <a href="#download" class="btn btn-primary btn-sm">Download</a>
     </nav>
   </div>
@@ -400,19 +409,19 @@
     </div>
   </section>
 
-  <div class="dbs">
+  <div class="dbs" id="databases">
     <div class="wrap">
       <h2>Supported databases</h2>
       <ul>
-        <li><i style="background:var(--azul)"></i>PostgreSQL</li>
-        <li><i style="background:var(--ciano)"></i>MySQL</li>
-        <li><i style="background:var(--ciano)"></i>MariaDB</li>
-        <li><i style="background:var(--azul)"></i>SQL Server</li>
-        <li><i style="background:#A1A1AA"></i>SQLite</li>
-        <li><i style="background:var(--violeta)"></i>MongoDB</li>
-        <li><i style="background:var(--violeta)"></i>Redis</li>
+        <li><a href="/postgresql-client/"><i style="background:var(--azul)"></i>PostgreSQL</a></li>
+        <li><a href="/mysql-client/"><i style="background:var(--ciano)"></i>MySQL</a></li>
+        <li><a href="/mariadb-client/"><i style="background:var(--ciano)"></i>MariaDB</a></li>
+        <li><a href="/sql-server-client/"><i style="background:var(--azul)"></i>SQL Server</a></li>
+        <li><a href="/sqlite-client/"><i style="background:#A1A1AA"></i>SQLite</a></li>
+        <li><a href="/mongodb-client/"><i style="background:var(--violeta)"></i>MongoDB</a></li>
+        <li><a href="/redis-client/"><i style="background:var(--violeta)"></i>Redis</a></li>
       </ul>
-      <p class="compat">Also works with compatible servers: CockroachDB, TimescaleDB, Supabase, Neon, TiDB, Valkey and Dragonfly.</p>
+      <p class="compat">Also works with compatible servers: <a href="/cockroachdb-client/">CockroachDB</a>, <a href="/timescaledb-client/">TimescaleDB</a>, <a href="/supabase-client/">Supabase</a>, <a href="/neon-client/">Neon</a>, <a href="/tidb-client/">TiDB</a>, <a href="/valkey-client/">Valkey</a> and <a href="/dragonfly-client/">Dragonfly</a>. <a href="/alternatives/">How NavQL compares</a> with other clients.</p>
     </div>
   </div>
 
@@ -535,15 +544,19 @@
   </section>
 </main>
 
-<footer>
+<footer class="site-footer">
   <div class="wrap">
-    <a class="brand" href="#main" aria-label="NavQL, back to top">
-      <picture>
-        <img src="assets/navql-logo-fundo-escuro.svg" alt="NavQL" width="79" height="24">
-      </picture>
-    </a>
-    <p>Free database client for MySQL, MariaDB, PostgreSQL, SQL Server, SQLite, MongoDB and Redis · © 2026 NavQL</p>
-    <nav aria-label="Footer"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="https://github.com/navql/releases/releases">Releases</a><a href="#main">Back to top</a></nav>
+    <div class="footer-top">
+      <div>
+        <a class="brand" href="/" aria-label="NavQL home"><img src="/assets/navql-logo-fundo-escuro.svg" alt="NavQL" width="79" height="24"></a>
+        <p>Free database client for macOS, Windows and Linux.</p>
+      </div>
+      <div><h2>Databases</h2><ul><li><a href="/postgresql-client/">PostgreSQL</a></li><li><a href="/mysql-client/">MySQL</a></li><li><a href="/mariadb-client/">MariaDB</a></li><li><a href="/sql-server-client/">SQL Server</a></li><li><a href="/mongodb-client/">MongoDB</a></li><li><a href="/redis-client/">Redis</a></li><li><a href="/sqlite-client/">SQLite</a></li></ul></div>
+      <div><h2>Compatible servers</h2><ul><li><a href="/supabase-client/">Supabase</a></li><li><a href="/neon-client/">Neon</a></li><li><a href="/cockroachdb-client/">CockroachDB</a></li><li><a href="/timescaledb-client/">TimescaleDB</a></li><li><a href="/tidb-client/">TiDB</a></li><li><a href="/valkey-client/">Valkey</a></li><li><a href="/dragonfly-client/">Dragonfly</a></li></ul></div>
+      <div><h2>Compare</h2><ul><li><a href="/alternatives/tableplus/">vs TablePlus</a></li><li><a href="/alternatives/dbeaver/">vs DBeaver</a></li><li><a href="/alternatives/datagrip/">vs DataGrip</a></li><li><a href="/alternatives/beekeeper-studio/">vs Beekeeper Studio</a></li><li><a href="/alternatives/pgadmin/">vs pgAdmin</a></li><li><a href="/alternatives/navicat/">vs Navicat</a></li><li><a href="/alternatives/db-pro/">vs DB Pro</a></li><li><a href="/alternatives/">All comparisons</a></li></ul></div>
+      <div><h2>NavQL</h2><ul><li><a href="/#download">Download</a></li><li><a href="/#faq">FAQ</a></li><li><a href="https://github.com/navql/releases/releases">Releases</a></li><li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/llms.txt">llms.txt</a></li></ul></div>
+    </div>
+    <p class="footer-bottom">© 2026 NavQL</p>
   </div>
 </footer>
 
