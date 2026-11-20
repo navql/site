@@ -77,8 +77,8 @@ READONLY_TX = lambda db: ('Read only that really is',
                           f'<code>DELETE</code> or a function that writes is refused too.')
 AI = ('AI assistant, optional',
       '<code>⌘J</code> writes a query from a sentence, <em>Explain</em> explains one and <em>Fix with AI</em> '
-      'proposes a fix when it fails. It uses your own Anthropic key and sends the structure of the database and '
-      'the editor text, never the data in your tables.')
+      'proposes a fix when it fails. Bring your own key for Anthropic, OpenAI, Google Gemini or OpenRouter, or run a '
+      'local model with Ollama. You choose what is sent: nothing, the structure only, or the structure with sample rows.')
 EXPORT = ('Export and import',
           'Export a page or a whole table to CSV, JSON or SQL. Import a CSV and its rows arrive as pending changes '
           'you review before saving.')
@@ -109,7 +109,7 @@ DEPTH = [
      'indexes, full scans and dead rows, with a suggested fix that never runs on its own.'),
     ('pg_dump · mysqldump · mongodump', 'Backups in one click',
      'The official dump tool runs in the background, streams straight to a file, works through the SSH tunnel and '
-     'shows progress. SQLite uses its own online backup.'),
+     'shows progress. Back up the whole database or only the tables you pick. SQLite uses its own online backup.'),
     ('ALTER TABLE', 'Edit the structure',
      'Change columns in place in the Structure view. NavQL shows the <code>ALTER TABLE</code> it will run and '
      'applies it only when you confirm.'),
@@ -694,7 +694,7 @@ ALTS = [
                ('Cancel a running query or end a session', 'Yes: pg_cancel_backend / pg_terminate_backend, KILL QUERY / KILL, CANCEL QUERIES on CockroachDB', '“Cancel a running query” is on its roadmap under Deeper Database Management, at 0%'),
                ('Top queries from server statistics', 'Yes: pg_stat_statements, performance_schema, TiDB statements_summary, SQL Server plan cache', 'Not listed on its website (it lists a history of the queries you ran)'),
                ('Health checks', 'Unused and duplicate indexes, full scans, dead rows, XID wraparound…, with the suggested command', 'Not listed on its website; index creation and maintenance (VACUUM, ANALYZE, REINDEX) are on its roadmap at 0%'),
-               ('Backups', 'pg_dump, mysqldump, mongodump, SQLite online backup; in the background, through the SSH tunnel', 'Not listed on its website (it lists CSV and JSON export)'),
+               ('Backups', 'pg_dump, mysqldump, mongodump, SQLite online backup; the whole database or chosen tables, in the background, through the SSH tunnel', 'Not listed on its website (it lists CSV and JSON export)'),
                ('Edit the structure', 'Edit columns in place, applied as ALTER TABLE after you see the statement', 'Schema editing is listed as done on its roadmap'),
                ('Truncate', 'Truncate and truncate cascade, which lists every referencing table first', 'Truncate is listed; a cascade is not'),
                ('Related rows', 'A tree of related rows in both directions, as many levels deep as you need', 'Its inspector shows a row’s relationships; a tree of related rows is not listed'),
@@ -702,16 +702,17 @@ ALTS = [
                ('Read-only connections', 'Yes, run inside a READ ONLY transaction on PostgreSQL and MySQL', 'Not listed; it lists guard rails that block writes in its AI chat and warnings for destructive queries'),
                ('CockroachDB, TimescaleDB, TiDB, Valkey, Dragonfly', 'Yes, detected by name, with the differences handled', 'Not in the list of supported databases on its website'),
                ('ClickHouse, DynamoDB, Turso, PlanetScale', 'No', 'Yes'),
+               ('Charts from a query', 'Yes: bar, line, area, pie and number, from SQL or the query builder', 'Yes, as dashboard widgets'),
                ('Dashboards and workflows', 'No', 'Yes'),
-               ('AI providers', 'Anthropic (your own key)', 'OpenAI, Anthropic, Google, Ollama, OpenRouter')],
-         them=['You use ClickHouse, DynamoDB or Turso', 'You want dashboards and workflows built from queries', 'You want to choose between several AI providers or a local model', 'You want a web workspace for a team'],
+               ('AI providers', 'Anthropic, OpenAI, Google Gemini, OpenRouter, Ollama (your own key)', 'OpenAI, Anthropic, Google, Ollama, OpenRouter')],
+         them=['You use ClickHouse, DynamoDB or Turso', 'You want dashboards and workflows built from queries', 'You want a web workspace for a team'],
          us=['You want to see sessions and locks and cancel a query today', 'You want top queries and health checks from the server\'s own statistics', 'You want one-click backups with pg_dump, mysqldump or mongodump', 'You want real read-only connections and truncate cascade', 'You use CockroachDB, TimescaleDB, TiDB, Valkey or Dragonfly', 'You want more than 2 connections and 3 tabs without paying'],
          faq=[('Is DB Pro free?',
                'It has a free plan with limits (2 connections, 3 open tabs, 5 saved queries, 1 device) and paid plans. NavQL is free without those limits.'),
               ('Can NavQL cancel a running query?',
                'Yes. From the editor, or from the Activity tab, where every session on the server is listed with its query. You can also end a session. On DB Pro, cancelling a running query is on its roadmap.'),
               ('Can NavQL back up a database?',
-               'Yes, in one click: PostgreSQL with pg_dump, MySQL and MariaDB with mysqldump, MongoDB with mongodump and SQLite with its online backup. '
+               'Yes, in one click, of the whole database or only the tables you pick: PostgreSQL with pg_dump, MySQL and MariaDB with mysqldump, MongoDB with mongodump and SQLite with its online backup. '
                'Restore with the database\'s own tool. SQL Server, Redis, CockroachDB and TiDB backups are not available yet.')]),
 ]
 

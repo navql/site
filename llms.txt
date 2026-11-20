@@ -2,7 +2,7 @@
 
 > NavQL is a free desktop database client for macOS (Apple Silicon), Windows and Linux. It connects to PostgreSQL, MySQL, MariaDB, SQL Server, SQLite, MongoDB and Redis, and to compatible servers: CockroachDB, TimescaleDB, Supabase, Neon (PostgreSQL protocol), TiDB (MySQL protocol), Valkey and Dragonfly (Redis protocol). It is free for personal and commercial use on any number of your own computers. It is not open source.
 
-Facts below are current as of version 0.4.14 (November 2026). Website: https://navql.com/
+Facts below are current as of version 0.4.15 (November 2026). Website: https://navql.com/
 
 ## Product facts
 
@@ -32,10 +32,11 @@ Facts below are current as of version 0.4.14 (November 2026). Website: https://n
 - Database diagram: drawn from the foreign keys, laid out automatically, exported as PNG or SVG.
 - SQL editor: autocomplete per dialect, run statement under cursor or all, formatting, several result tabs, saved queries and history, cancel a running query. MongoDB uses shell syntax (find, aggregate, insertMany, updateMany…).
 - Activity tab (all databases except SQLite): live server metrics; every session with its query and waits, including who blocks whom; cancel a query or end a session; top queries from the server's own statistics (pg_stat_statements, performance_schema, TiDB statements_summary, SQL Server plan cache) with rows examined on MySQL, MariaDB and TiDB; Health checks (unused and duplicate indexes, full scans, missing primary keys, dead rows, stale statistics, XID wraparound, invalid indexes, OPTIMIZE TABLE, missing indexes on SQL Server) with suggested commands that never run on their own; server settings with defaults. Redis: memory, hit rate, clients (unblock, kill) and slow log. MongoDB: serverStatus, current operations (kill) and profiler.
-- Backups: one click, in the background, streamed to a file, also through the SSH tunnel. PostgreSQL with pg_dump (custom format), MySQL and MariaDB with mysqldump (.sql.gz), MongoDB with mongodump (archive, gzip), SQLite with its online backup. Not available yet for SQL Server, Redis and compatible servers, CockroachDB and TiDB. Restore is done with the database's own tools.
+- Backups: one click, of the whole database or only chosen tables, in the background, streamed to a file, also through the SSH tunnel. PostgreSQL with pg_dump (custom format), MySQL and MariaDB with mysqldump (.sql.gz), MongoDB with mongodump (archive, gzip), SQLite with its online backup. Not available yet for SQL Server, Redis and compatible servers, CockroachDB and TiDB. Restore is done with the database's own tools.
+- Charts: any query result as a bar, line, area, pie or single-number chart, also from the visual query builder; click a bar or slice to see its rows; export as PNG.
 - Export and import: CSV, JSON and SQL export of a page or a whole table; CSV import as pending rows.
 - Truncate cascade: empties a table and every table that references it, after listing them.
-- AI assistant (optional, Anthropic Claude with the user's own API key): writes a query from a sentence, explains a query, fixes a failed query, and reviews server settings. It sends the database structure (table and column names, types, keys) and the editor text, never table data. Nothing runs without the user accepting it.
+- AI assistant (optional, with the user's own key for Anthropic, OpenAI, Google Gemini or OpenRouter, or a local model through Ollama): writes a query from a sentence, explains a query, fixes a failed query, and reviews server settings. The user chooses what is sent: nothing, the database structure (table and column names, types, keys) with the editor text, or that plus a few sample rows. Nothing runs without the user accepting it.
 - Redis: keys grouped by prefix in a grid with type, TTL, size and value; values of any type are editable.
 
 ## Not supported yet
@@ -70,7 +71,7 @@ Facts below are current as of version 0.4.14 (November 2026). Website: https://n
 - [NavQL vs Beekeeper Studio](https://navql.com/alternatives/beekeeper-studio/)
 - [NavQL vs pgAdmin](https://navql.com/alternatives/pgadmin/)
 - [NavQL vs Navicat](https://navql.com/alternatives/navicat/)
-- [NavQL vs DB Pro](https://navql.com/alternatives/db-pro/): DB Pro has dashboards, workflows and more AI providers; NavQL adds server activity (sessions, cancel, top queries, health), backups, truncate cascade, a visual query builder and real read-only connections
+- [NavQL vs DB Pro](https://navql.com/alternatives/db-pro/): DB Pro has dashboards and workflows; NavQL adds server activity (sessions, cancel, top queries, health), backups, truncate cascade, a visual query builder and real read-only connections
 
 ## Legal
 
