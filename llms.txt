@@ -2,7 +2,7 @@
 
 > NavQL is a free desktop database client for macOS (Apple Silicon), Windows and Linux. It connects to PostgreSQL, MySQL, MariaDB, SQL Server, SQLite, MongoDB and Redis, and to compatible servers: CockroachDB, TimescaleDB, Supabase, Neon (PostgreSQL protocol), TiDB (MySQL protocol), Valkey and Dragonfly (Redis protocol). It is free for personal and commercial use on any number of your own computers. It is not open source.
 
-Facts below are current as of version 0.4.17 (November 2026). Website: https://navql.com/
+Facts below are current as of version 0.4.18 (November 2026). Website: https://navql.com/
 
 ## Product facts
 
